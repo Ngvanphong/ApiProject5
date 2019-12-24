@@ -69,6 +69,7 @@ C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\zh-CN
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\zh-TW\AdWindows.resources.dll
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\FoxLearn.License.dll
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\Newtonsoft.Json.dll
-C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\System.Text.RegularExpressions.dll
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\Newtonsoft.Json.xml
-C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.csprojResolveAssemblyReference.cache
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.csprojAssemblyReference.cache
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.csproj.CoreCompileInputs.cache
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.csproj.CopyComplete
