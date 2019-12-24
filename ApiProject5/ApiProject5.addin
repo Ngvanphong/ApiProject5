@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Text>Command ApiProject5</Text>
+    <Description>Some description for ApiProject5</Description>
+    <Assembly>ApiProject5.dll</Assembly>
+    <FullClassName>ApiProject5.Command</FullClassName>
+    <ClientId>960d5e72-da4f-4311-8e0b-2a7a10c038de</ClientId>
+    <VendorId>com.typepad.thebuildingcoder</VendorId>
+    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+  </AddIn>
+  <AddIn Type="Application">
+    <Name>Application ApiProject5</Name>
+    <Assembly>ApiProject5.dll</Assembly>
+    <FullClassName>ApiProject5.App</FullClassName>
+    <ClientId>775ab3f9-b2fe-4970-8726-d51a0d570766</ClientId>
+    <VendorId>com.typepad.thebuildingcoder</VendorId>
+    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>
