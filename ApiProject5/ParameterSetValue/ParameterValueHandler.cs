@@ -1,12 +1,9 @@
-﻿using System;
+﻿using ApiProject5.Helper;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
-using ApiProject5.Helper;
 
 namespace ApiProject5.ParameterSetValue
 {
@@ -27,7 +24,7 @@ namespace ApiProject5.ParameterSetValue
             var allSelectionIds = app.ActiveUIDocument.Selection.GetElementIds();
             Element elementFirst = doc.GetElement(allSelectionIds.First());
             var listParameters = elementFirst.Parameters;
-            List<Element> listElementSetParameter = new List<Element>();           
+            List<Element> listElementSetParameter = new List<Element>();
             if (elementInProject)
             {
                 ElementCategoryFilter filter = new ElementCategoryFilter(elementFirst.Category.Id);
@@ -35,13 +32,13 @@ namespace ApiProject5.ParameterSetValue
             }
             else
             {
-                foreach(ElementId id in allSelectionIds)
+                foreach (ElementId id in allSelectionIds)
                 {
                     Element el = doc.GetElement(id);
                     listElementSetParameter.Add(el);
                 }
             }
-            foreach(Element elementSet in listElementSetParameter)
+            foreach (Element elementSet in listElementSetParameter)
             {
                 Parameter paraSet = null;
                 try
@@ -52,16 +49,16 @@ namespace ApiProject5.ParameterSetValue
                 if (paraSet != null)
                 {
                     string newString = string.Empty;
-                    if(!string.IsNullOrEmpty(valueSet)&&valueSet!=" ")
+                    if (!string.IsNullOrEmpty(valueSet) && valueSet != " ")
                     {
                         newString = SetTextFormat(typeText, valueSet);
                     }
                     else
                     {
                         string oldString = ParameterRevit.ParameterToString(paraSet);
-                        newString = SetTextFormat(typeText,oldString);
+                        newString = SetTextFormat(typeText, oldString);
                     }
-                   using(Transaction t= new Transaction(doc, "SetParameterValue1"))
+                    using (Transaction t = new Transaction(doc, "SetParameterValue1"))
                     {
                         t.Start();
                         try
@@ -78,7 +75,6 @@ namespace ApiProject5.ParameterSetValue
                         }
                     }
                 }
-                
             }
         }
 
@@ -86,7 +82,8 @@ namespace ApiProject5.ParameterSetValue
         {
             return "ParameterSetValue";
         }
-        private string SetTextFormat(string typeFormat,string textValue)
+
+        private string SetTextFormat(string typeFormat, string textValue)
         {
             textValue = Regex.Replace(textValue, @"^\s+", "");
             string stringFormat = textValue;
@@ -95,17 +92,21 @@ namespace ApiProject5.ParameterSetValue
                 case Constant.Normal:
                     stringFormat = textValue;
                     break;
+
                 case Constant.Upper:
                     stringFormat = textValue.ToUpper();
                     break;
+
                 case Constant.Lower:
                     stringFormat = textValue.ToLower();
                     break;
+
                 case Constant.Sentense:
-                    stringFormat= textValue.First().ToString().ToUpper() + textValue.Remove(0, 1).ToLower();
+                    stringFormat = textValue.First().ToString().ToUpper() + textValue.Remove(0, 1).ToLower();
                     break;
+
                 case Constant.Title:
-                    stringFormat= Regex.Replace(textValue, @"(^\w)|(\s\w)", m => m.Value.ToUpper());
+                    stringFormat = Regex.Replace(textValue, @"(^\w)|(\s\w)", m => m.Value.ToUpper());
                     break;
             }
             return stringFormat;
