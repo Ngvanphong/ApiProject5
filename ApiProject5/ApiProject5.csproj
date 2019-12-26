@@ -98,6 +98,7 @@
     <Compile Include="Helper\ParameterRevit.cs" />
     <Compile Include="Helper\SelectionFilterCategory.cs" />
     <Compile Include="ParameterSetValue\AppPanalParameterSet.cs" />
+    <Compile Include="ParameterSetValue\Constant.cs" />
     <Compile Include="ParameterSetValue\frmParameterSet.cs">
       <SubType>Form</SubType>
     </Compile>
