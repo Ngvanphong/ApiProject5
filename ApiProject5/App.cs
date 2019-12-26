@@ -1,5 +1,6 @@
 #region Namespaces
 
+using ApiProject5.Button;
 using Autodesk.Revit.UI;
 
 #endregion Namespaces
@@ -10,6 +11,8 @@ namespace ApiProject5
     {
         public Result OnStartup(UIControlledApplication a)
         {
+            ParameterSetButton parameterButtonClass = new ParameterSetButton();
+            parameterButtonClass.ParameterSet(a);
             return Result.Succeeded;
         }
 

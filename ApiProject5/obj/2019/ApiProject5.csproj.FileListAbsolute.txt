@@ -1,5 +1,6 @@
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\ApiProject5.dll
-C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.dll
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\FoxLearn.License.dll
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\RevitAPI.dll
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\RevitAPIUI.dll
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\RevitAPIFoundation.dll
@@ -51,6 +52,7 @@ C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\Detai
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\UIFrameworkServices.dll
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\ManagedMC3.dll
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\Xceed.Wpf.AvalonDock.dll
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\RevitAPI.xml
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\RevitAPIUI.xml
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\cs-CZ\AdWindows.resources.dll
@@ -67,9 +69,12 @@ C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\pt-BR
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\ru-RU\AdWindows.resources.dll
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\zh-CN\AdWindows.resources.dll
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\zh-TW\AdWindows.resources.dll
-C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\FoxLearn.License.dll
-C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\Newtonsoft.Json.dll
-C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\Newtonsoft.Json.xml
-C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.csprojAssemblyReference.cache
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.ParameterSetValue.frmParameterSet.resources
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.Properties.Resources.resources
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.csproj.GenerateResource.cache
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.dll
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.csproj.CoreCompileInputs.cache
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.csproj.CopyComplete
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\ApiProject5.pdb
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.pdb
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.csprojAssemblyReference.cache
