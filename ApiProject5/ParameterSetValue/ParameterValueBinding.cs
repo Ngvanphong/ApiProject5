@@ -37,7 +37,7 @@ namespace ApiProject5.ParameterSetValue
             AppPanalParameterSet.ShowParameterSet();
             AppPanalParameterSet.myFormParameterSet.comboBoxNameParameterEle.DisplayMember = "Text";
             AppPanalParameterSet.myFormParameterSet.comboBoxNameParameterEle.ValueMember = "Value";
-            foreach (var item in listParamterInstance)
+            foreach (var item in listParamterInstance.OrderBy(x=>x))
             {
                 AppPanalParameterSet.myFormParameterSet.comboBoxNameParameterEle.Items.Add(new{ Text = item, Value = item });
             }
