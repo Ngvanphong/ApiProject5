@@ -56,24 +56,30 @@ namespace ApiProject5.ParameterSetValue
                     else
                     {
                         string oldString = ParameterRevit.ParameterToString(paraSet);
-                        newString = SetTextFormat(typeText, oldString);
+                        if(!string.IsNullOrEmpty(oldString)&&oldString!=" ")
+                        {
+                            newString = SetTextFormat(typeText, oldString);
+                        } 
                     }
-                    using (Transaction t = new Transaction(doc, "SetParameterValue1"))
+                    if (!string.IsNullOrEmpty(newString))
                     {
-                        t.Start();
-                        try
+                        using (Transaction t = new Transaction(doc, "SetParameterValue1"))
                         {
-                            if (paraSet.StorageType == StorageType.Integer) paraSet.Set(int.Parse(newString));
-                            else if (paraSet.StorageType == StorageType.Double) paraSet.SetValueString(newString);
-                            //else if (paraSet.StorageType == StorageType.ElementId) paraSet.SetValueString(newString);
-                            else if (paraSet.StorageType == StorageType.String) paraSet.Set(newString);
-                            t.Commit();
+                            t.Start();
+                            try
+                            {
+                                if (paraSet.StorageType == StorageType.Integer) paraSet.Set(int.Parse(newString));
+                                else if (paraSet.StorageType == StorageType.Double) paraSet.SetValueString(newString);
+                                //else if (paraSet.StorageType == StorageType.ElementId) paraSet.SetValueString(newString);
+                                else if (paraSet.StorageType == StorageType.String) paraSet.Set(newString);
+                                t.Commit();
+                            }
+                            catch
+                            {
+                                t.Commit();
+                            }
                         }
-                        catch
-                        {
-                            t.Commit();
-                        }
-                    }
+                    }  
                 }
             }
         }
