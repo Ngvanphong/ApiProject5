@@ -20,7 +20,7 @@ namespace ApiProject5.ParameterSetValue
             var  listIdSelects = app.ActiveUIDocument.Selection.GetElementIds();
             if (listIdSelects.Count == 0)
             {
-                MessageBox.Show("You must select element set parameter");
+                MessageBox.Show("You must select element to set parameter");
                 return Result.Succeeded;
             }
             Element elementFirst = doc.GetElement(listIdSelects.First());

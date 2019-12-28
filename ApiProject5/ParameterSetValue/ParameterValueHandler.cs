@@ -4,6 +4,7 @@ using Autodesk.Revit.UI;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace ApiProject5.ParameterSetValue
 {
@@ -22,6 +23,11 @@ namespace ApiProject5.ParameterSetValue
             else if (AppPanalParameterSet.myFormParameterSet.radioButtonTitleText.Checked) typeText = Constant.Title;
             else if (AppPanalParameterSet.myFormParameterSet.radioButtonUpperText.Checked) typeText = Constant.Upper;
             var allSelectionIds = app.ActiveUIDocument.Selection.GetElementIds();
+            if (allSelectionIds.Count == 0)
+            {
+                MessageBox.Show("You must choose element to set parameter");
+                return;
+            }
             Element elementFirst = doc.GetElement(allSelectionIds.First());
             var listParameters = elementFirst.Parameters;
             List<Element> listElementSetParameter = new List<Element>();
@@ -56,10 +62,10 @@ namespace ApiProject5.ParameterSetValue
                     else
                     {
                         string oldString = ParameterRevit.ParameterToString(paraSet);
-                        if(!string.IsNullOrEmpty(oldString)&&oldString!=" ")
+                        if (!string.IsNullOrEmpty(oldString) && oldString != " ")
                         {
                             newString = SetTextFormat(typeText, oldString);
-                        } 
+                        }
                     }
                     if (!string.IsNullOrEmpty(newString))
                     {
@@ -79,7 +85,7 @@ namespace ApiProject5.ParameterSetValue
                                 t.Commit();
                             }
                         }
-                    }  
+                    }
                 }
             }
         }
