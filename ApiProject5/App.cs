@@ -13,6 +13,8 @@ namespace ApiProject5
         {
             ParameterSetButton parameterButtonClass = new ParameterSetButton();
             parameterButtonClass.ParameterSet(a);
+            TransferMoreButton transferButton = new TransferMoreButton();
+            transferButton.TransferMoreFuc(a);
             return Result.Succeeded;
         }
 

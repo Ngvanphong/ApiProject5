@@ -78,3 +78,4 @@ C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiPro
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\ApiProject5.pdb
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.pdb
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.csprojAssemblyReference.cache
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.TransferMore.frmTransferMore.resources
