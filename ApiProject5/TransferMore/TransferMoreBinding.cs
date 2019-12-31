@@ -49,41 +49,46 @@ namespace ApiProject5.TransferMore
             var legendsAll = new FilteredElementCollector(doc).OfClass(typeof(Autodesk.Revit.DB.View)).
                 Cast<Autodesk.Revit.DB.View>().Where(x => x.ViewType == ViewType.Legend);
             TreeNode node = AppPenalTransferMore.myFormTransferMore.treeViewElementTransfer.Nodes.Add(Constants.LegendView);
+            TreeNode node2 = node.Nodes.Add(Constants.LegendView);
             foreach (var item in legendsAll.OrderBy(x => x.Name))
             {
-                node.Nodes.Add(item.Name);
+                node2.Nodes.Add(item.Name);
             }
             var allViewTemplate = new FilteredElementCollector(doc).OfClass(typeof(Autodesk.Revit.DB.View))
                 .Cast<Autodesk.Revit.DB.View>().Where(x => x.IsTemplate);
             if (allViewTemplate.Count() > 0)
             {
                 TreeNode nodeTem = AppPenalTransferMore.myFormTransferMore.treeViewElementTransfer.Nodes.Add(Constants.TemplateView);
+                TreeNode nodeTem2 = nodeTem.Nodes.Add(Constants.TemplateView);
                 foreach (var viewTem in allViewTemplate.OrderBy(x => x.Name))
                 {
-                    nodeTem.Nodes.Add(viewTem.Name);
+                    nodeTem2.Nodes.Add(viewTem.Name);
                 }
             }
             var fillPatten = new FilteredElementCollector(doc).OfClass(typeof(FillPatternElement));
             if (fillPatten.Count() > 0)
             {
                 TreeNode nodePa = AppPenalTransferMore.myFormTransferMore.treeViewElementTransfer.Nodes.Add(Constants.Pattern);
+                TreeNode nodePa2 = nodePa.Nodes.Add(Constants.Pattern);
                 foreach (var patten in fillPatten.OrderBy(x => x.Name))
                 {
-                    nodePa.Nodes.Add(patten.Name);
+                    nodePa2.Nodes.Add(patten.Name);
                 }
             }
             var lineStyle = doc.Settings.Categories.get_Item(BuiltInCategory.OST_Lines);
             TreeNode nodeLineSty = AppPenalTransferMore.myFormTransferMore.treeViewElementTransfer.Nodes.Add(Constants.LineStyle);
+            TreeNode nodeLineSty2 = nodeLineSty.Nodes.Add(Constants.LineStyle);
             foreach (Category line in lineStyle.SubCategories)
             {
-                nodeLineSty.Nodes.Add(line.Name);
+                nodeLineSty2.Nodes.Add(line.Name);
             }
 
             var allMaterial = new FilteredElementCollector(doc).OfClass(typeof(Material)).OrderBy(x => x.Name);
             TreeNode nodeMater = AppPenalTransferMore.myFormTransferMore.treeViewElementTransfer.Nodes.Add(Constants.Material);
+            TreeNode nodeMater2 = nodeMater.Nodes.Add(Constants.Material);
             foreach (Material mat in allMaterial)
             {
-                nodeMater.Nodes.Add(mat.Name);
+                nodeMater2.Nodes.Add(mat.Name);
             }
         }
 

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
 using System.Windows.Forms;
-using System.Linq;
 namespace ApiProject5.TransferMore
 {
     public class TransferMoreHandler : IExternalEventHandler
@@ -26,10 +25,11 @@ namespace ApiProject5.TransferMore
         }
         private void FindCheckedNodes(List<TreeNode> checked_nodes, TreeNodeCollection nodes)
         {
+           
             foreach (TreeNode node in nodes)
             {
                 // Add this node.
-                if (node.Checked) checked_nodes.Add(node);
+                if (node.Checked&&node.Level==2&&!checked_nodes.Exists(x=>x.Text==node.Text)) checked_nodes.Add(node);
                 // Check the node's descendants.
                 FindCheckedNodes(checked_nodes, node.Nodes);
             }
