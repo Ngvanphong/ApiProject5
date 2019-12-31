@@ -1,11 +1,7 @@
-﻿using System;
+﻿using Autodesk.Revit.UI;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
 using System.Windows.Forms;
+
 namespace ApiProject5.TransferMore
 {
     public class TransferMoreHandler : IExternalEventHandler
@@ -19,31 +15,65 @@ namespace ApiProject5.TransferMore
         {
             return "TransferMoreHandler";
         }
+
         public void GetCheckListElement()
         {
-            List<TreeNode> checked_nodes = CheckedNodes(AppPenalTransferMore.myFormTransferMore.treeViewElementTransfer);
+            List<Node1> checked_nodes = FindCheckedNodes(AppPenalTransferMore.myFormTransferMore.treeViewElementTransfer);
         }
-        private void FindCheckedNodes(List<TreeNode> checked_nodes, TreeNodeCollection nodes)
+
+        private List<Node1> FindCheckedNodes(TreeView treeView)
         {
-           
-            foreach (TreeNode node in nodes)
+            List<Node1> listResult = new List<Node1>();
+            foreach (TreeNode node in treeView.Nodes)
             {
-                // Add this node.
-                if (node.Checked&&node.Level==2&&!checked_nodes.Exists(x=>x.Text==node.Text)) checked_nodes.Add(node);
-                // Check the node's descendants.
-                FindCheckedNodes(checked_nodes, node.Nodes);
+                Node1 nodeAdd = new Node1();
+                List<Node2> listNode2 = new List<Node2>();
+                foreach(TreeNode node2 in node.Nodes)
+                {
+                    List<string> listTypeChecked = new List<string>();
+                    foreach(TreeNode node3 in node2.Nodes)
+                    {
+                        if (node3.Checked == true&&!listTypeChecked.Exists(x=>x==node3.Text))
+                        {
+                            listTypeChecked.Add(node3.Text);
+                        }
+                    }
+                    if (listTypeChecked.Count > 0)
+                    {
+                        Node2 node2Add = new Node2();
+                        node2Add.FamilyName = node2.Text;
+                        node2Add.ListType = listTypeChecked;
+                        listNode2.Add(node2Add);
+                    }
+                }
+                if (listNode2.Count > 0)
+                {
+                    nodeAdd.ListFamilyType = listNode2;
+                    nodeAdd.NameCategory = node.Text;
+                    listResult.Add(nodeAdd);
+                } 
             }
+            return listResult;
         }
 
-        private List<TreeNode> CheckedNodes(TreeView trv)
-        {
-            List<TreeNode> checked_nodes = new List<TreeNode>();
-            FindCheckedNodes(checked_nodes, trv.Nodes);
-            return checked_nodes;
-        }
-
-
-
+        
     }
-    
+    public class Node1
+    {
+        public string NameCategory { set; get; }
+        public List<Node2> ListFamilyType { set; get; }
+        public Node1()
+        {
+            ListFamilyType = new List<Node2>();
+        }
+    }
+    public class Node2
+    {
+        public string FamilyName { set; get; }
+        public List<string> ListType { set; get; }
+        public Node2()
+        {
+            ListType = new List<string>();
+        }
+    }
 }
