@@ -13,6 +13,7 @@ namespace ApiProject5.TransferMore
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
+            AppPenalTransferMore.DocumentSource = doc.Title;
             AppPenalTransferMore.ShowTransferMore();
             GetInfromationTree(doc);
             TransferAdvance(doc);

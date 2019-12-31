@@ -8,6 +8,7 @@ namespace ApiProject5.TransferMore
 {
    public static class AppPenalTransferMore
     {
+        public static string DocumentSource = string.Empty;
         public static frmTransferMore myFormTransferMore;
         public static void ShowTransferMore()
         {
