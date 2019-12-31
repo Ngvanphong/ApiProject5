@@ -20,5 +20,15 @@ namespace ApiProject5.TransferMore
             _eventTransfer = eventTransfer;
             _handlerTransfer = handlerTransfer;
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnTransferOK_Click(object sender, EventArgs e)
+        {
+            _eventTransfer.Raise();
+        }
     }
 }

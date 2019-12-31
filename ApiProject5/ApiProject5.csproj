@@ -115,6 +115,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="TransferMore\AppPenalTransferMore.cs" />
+    <Compile Include="TransferMore\Constants.cs" />
     <Compile Include="TransferMore\frmTransferMore.cs">
       <SubType>Form</SubType>
     </Compile>
