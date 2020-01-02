@@ -17,5 +17,12 @@ namespace ApiProject5.TransferMore
                 return new List<string>() { TemplateView, LegendView, Pattern, LineStyle, Material };
             }
         }
+        public static List<string> LineSystem { get
+            {
+                return new List<string>() { "Wide Lines","Lines","Thin Lines","Insulation Batting Lines","Axis of Rotation","Medium Lines","Hidden Lines" };
+            }
+        }
+
+
     }
 }

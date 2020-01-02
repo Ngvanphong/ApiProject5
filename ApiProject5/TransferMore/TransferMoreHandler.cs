@@ -31,10 +31,12 @@ namespace ApiProject5.TransferMore
             }
 
             List<Node1> checked_nodes = FindCheckedNodes(AppPenalTransferMore.myFormTransferMore.treeViewElementTransfer);
-            List<ElementId> listIsCopy = new List<ElementId>();
+            List<CopyCategory> listCateCopy = new List<CopyCategory>();
             List<ElementId> listIdLegend = new List<ElementId>();
             foreach (var Cate in checked_nodes)
             {
+                CopyCategory cateCopy = new CopyCategory();
+                cateCopy.NameCate = Cate.NameCategory;
                 foreach (var Fami in Cate.ListFamilyType)
                 {
                     foreach (string typeN in Fami.ListType)
@@ -45,7 +47,7 @@ namespace ApiProject5.TransferMore
                             Where(x => x.Name == typeN && x.FamilyName == Fami.FamilyName && x.Category.Name == Cate.NameCategory);
                             foreach (var item in sourceCopy)
                             {
-                                listIsCopy.Add(item.Id);
+                                cateCopy.ListIdCopy.Add(item.Id);
                             }
                         }
                         else
@@ -55,7 +57,7 @@ namespace ApiProject5.TransferMore
                             idNewCopy = GetElementNoneCate(typeN, Cate.NameCategory, doc, out idLegend);
                             if (idNewCopy != null)
                             {
-                                listIsCopy.Add(idNewCopy);
+                                cateCopy.ListIdCopy.Add(idNewCopy);
                             }
                             if (idLegend != null)
                             {
@@ -64,25 +66,32 @@ namespace ApiProject5.TransferMore
                         }
                     }
                 }
+                if (cateCopy.ListIdCopy.Count > 0)
+                {
+                    listCateCopy.Add(cateCopy);
+                }
             }
             CopyPasteOptions option = null;
-            if (listIsCopy.Count > 0)
+            if (listCateCopy.Count > 0)
             {
-                using (Transaction t = new Transaction(docTo, "TransferAction"))
+                foreach(CopyCategory cateC in listCateCopy)
                 {
-                    t.Start();
-                    try
+                    using (Transaction t = new Transaction(docTo, "TransferAction"))
                     {
-                        option = new CopyPasteOptions();
-                        ElementTransformUtils.CopyElements(doc, listIsCopy, docTo, Transform.Identity, option);
-                        t.Commit();
+                        t.Start();
+                        try
+                        {
+                            option = new CopyPasteOptions();
+                            ElementTransformUtils.CopyElements(doc, cateC.ListIdCopy, docTo, Transform.Identity, option);
+                            t.Commit();
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show("Error: Element can't transfer at category: "+cateC.NameCate);
+                            t.Commit();
+                        }
                     }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show("Error: Element can't transfer");
-                        t.Commit();
-                    }
-                }
+                }               
                 CheckUncheckTreeNode(AppPenalTransferMore.myFormTransferMore.treeViewElementTransfer.Nodes, false);
             }
 
@@ -189,7 +198,7 @@ namespace ApiProject5.TransferMore
                 var lineStyle = doc.Settings.Categories.get_Item(BuiltInCategory.OST_Lines);
                 foreach (Category line in lineStyle.SubCategories)
                 {
-                    if (line.Name == typeName&&line.Name.StartsWith("<")==false)
+                    if (line.Name == typeName&&typeName.StartsWith("<")==false&&!Constants.LineSystem.Exists(x=>x==typeName))
                     {
                         idResult = line.Id;
                         break;
@@ -233,6 +242,15 @@ namespace ApiProject5.TransferMore
         public Node2()
         {
             ListType = new List<string>();
+        }
+    }
+    public class CopyCategory
+    {
+        public string NameCate { set; get; }
+        public List<ElementId> ListIdCopy { set; get; }
+        public CopyCategory()
+        {
+            ListIdCopy = new List<ElementId>();
         }
     }
 }
