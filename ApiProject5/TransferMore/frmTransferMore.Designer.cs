@@ -42,9 +42,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treeViewElementTransfer.CheckBoxes = true;
-            this.treeViewElementTransfer.Location = new System.Drawing.Point(12, 33);
+            this.treeViewElementTransfer.Location = new System.Drawing.Point(12, 35);
             this.treeViewElementTransfer.Name = "treeViewElementTransfer";
-            this.treeViewElementTransfer.Size = new System.Drawing.Size(423, 464);
+            this.treeViewElementTransfer.Size = new System.Drawing.Size(423, 462);
             this.treeViewElementTransfer.TabIndex = 0;
             this.treeViewElementTransfer.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewElementTransfer_AfterCheck);
             // 
