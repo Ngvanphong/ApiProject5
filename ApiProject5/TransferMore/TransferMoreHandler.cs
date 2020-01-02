@@ -79,6 +79,7 @@ namespace ApiProject5.TransferMore
                     }
                     catch (Exception e)
                     {
+                        MessageBox.Show("Error: Element can't transfer");
                         t.Commit();
                     }
                 }
