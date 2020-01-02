@@ -32,6 +32,7 @@ namespace ApiProject5.TransferMore
 
             List<Node1> checked_nodes = FindCheckedNodes(AppPenalTransferMore.myFormTransferMore.treeViewElementTransfer);
             List<ElementId> listIsCopy = new List<ElementId>();
+            List<ElementId> listIdLegend = new List<ElementId>();
             foreach (var Cate in checked_nodes)
             {
                 foreach (var Fami in Cate.ListFamilyType)
@@ -49,12 +50,18 @@ namespace ApiProject5.TransferMore
                         }
                         else
                         {
-                           listIsCopy.Add(GetElementNoneCate(typeN, Cate.NameCategory, doc));
+                           ElementId idLegend = null;
+                           listIsCopy.Add(GetElementNoneCate(typeN, Cate.NameCategory, doc,out idLegend));
+                            if (idLegend != null)
+                            {
+                                listIdLegend.Add(idLegend);
+                            }
                         }
                         
                     }
                 }
             }
+            CopyPasteOptions option = null;
             if (listIsCopy.Count > 0)
             {
                 using (Transaction t = new Transaction(docTo, "TransferAction"))
@@ -62,7 +69,7 @@ namespace ApiProject5.TransferMore
                     t.Start();
                     try
                     {
-                        CopyPasteOptions option = new CopyPasteOptions();
+                       option = new CopyPasteOptions();
                         ElementTransformUtils.CopyElements(doc, listIsCopy, docTo, Transform.Identity, option);
                         t.Commit();
                     }
@@ -73,8 +80,35 @@ namespace ApiProject5.TransferMore
                 }
                 CheckUncheckTreeNode(AppPenalTransferMore.myFormTransferMore.treeViewElementTransfer.Nodes, false);
             }
+           
             
-            
+            if (listIdLegend.Count > 0)
+            {
+                foreach(var id in listIdLegend)
+                {
+                    Autodesk.Revit.DB.View originView = doc.GetElement(id) as Autodesk.Revit.DB.View;
+                    var allElmentInView = new FilteredElementCollector(doc, id).ToElementIds();
+                    string nameOrigin = originView.Name;
+                    using (Transaction t3= new Transaction(docTo, "TransferLegend"))
+                    {
+                        t3.Start();
+                        try
+                        {
+                            Autodesk.Revit.DB.View viewTo = new FilteredElementCollector(docTo).OfClass(typeof(Autodesk.Revit.DB.View))
+                                .Cast<Autodesk.Revit.DB.View>().Where(x => x.ViewType == ViewType.Legend && x.Name == originView.Name).First();
+                            viewTo.Name = "TemporateView100";
+                            ElementTransformUtils.CopyElements(originView, allElmentInView,viewTo,Transform.Identity, option);
+                            docTo.Delete(viewTo.Id);
+                            t3.Commit();
+                        }
+                        catch(Exception e)
+                        {
+                            t3.RollBack();
+                        }                       
+                    }
+                }
+            }
+
         }
 
         public string GetName()
@@ -137,13 +171,15 @@ namespace ApiProject5.TransferMore
             return result;
         }
 
-        private ElementId GetElementNoneCate(string typeName,string ortherCate,Document doc)
+        private ElementId GetElementNoneCate(string typeName,string ortherCate,Document doc,out ElementId idLegend)
         {
             ElementId idResult = null;
+            ElementId idOutput = null;
             if (ortherCate == Constants.LegendView)
             {
                 idResult = new FilteredElementCollector(doc).OfClass(typeof(Autodesk.Revit.DB.View)).
                 Cast<Autodesk.Revit.DB.View>().Where(x => x.ViewType == ViewType.Legend).Where(x => x.Name == typeName).First().Id;
+                idOutput = idResult;
             }
             else if (ortherCate == Constants.LineStyle)
             {
@@ -170,6 +206,7 @@ namespace ApiProject5.TransferMore
                 idResult = new FilteredElementCollector(doc).OfClass(typeof(Autodesk.Revit.DB.View))
                     .Cast<Autodesk.Revit.DB.View>().Where(x => x.IsTemplate).Where(x => x.Name == typeName).First().Id;
             }
+            idLegend = idOutput;
             return idResult;
         }
     }
