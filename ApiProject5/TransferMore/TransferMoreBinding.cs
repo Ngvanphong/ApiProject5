@@ -18,7 +18,6 @@ namespace ApiProject5.TransferMore
             GetInfromationTree(doc);
             TransferAdvance(doc);
             GetAllProject(commandData.Application);
-
             return Result.Succeeded;
         }
 
@@ -107,7 +106,6 @@ namespace ApiProject5.TransferMore
                     AppPenalTransferMore.myFormTransferMore.comboBoxToProject.Items.Add(new { Text = docItem.Title, Value = docItem.Title });
                 }
             }
-
         }
     }
 }
