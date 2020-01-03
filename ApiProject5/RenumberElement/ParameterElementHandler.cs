@@ -52,8 +52,7 @@ namespace ApiProject5.RenumberElement
                             Parameter paraIstan = el.LookupParameter(name);
                             if (paraIstan != null&paraIstan.StorageType==StorageType.String)
                             {
-                                if(!listParaName.Exists(x=>x==name))listParaName.Add(name);
-                                
+                                if(!listParaName.Exists(x=>x==name))listParaName.Add(name);                               
                             }
                         }
                         catch { continue; }
@@ -63,10 +62,7 @@ namespace ApiProject5.RenumberElement
                 {
                     AppPenalRenumberElement.myFormRenumberElement.comboBoxParameterRenumerElement.Items.Add(new { Text = text, Value = text });
                 }
-               
-
             }
-
         }
 
         public string GetName()
