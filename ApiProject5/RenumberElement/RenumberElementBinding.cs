@@ -14,7 +14,17 @@ namespace ApiProject5.RenumberElement
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             AppPenalRenumberElement.ShowRenumberElement();
+            GetInforRenumber();
             return Result.Succeeded;
+        }
+        public void GetInforRenumber()
+        {
+            AppPenalRenumberElement.myFormRenumberElement.comboBoxTypeElementRenumber.DisplayMember = "Text";
+            AppPenalRenumberElement.myFormRenumberElement.comboBoxTypeElementRenumber.ValueMember = "Value";
+            foreach(string text in Constants.ListCate)
+            {
+                AppPenalRenumberElement.myFormRenumberElement.comboBoxTypeElementRenumber.Items.Add(new { Text = text, Value = text });
+            }
         }
     }
 }

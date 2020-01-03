@@ -116,12 +116,14 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RenumberElement\AppPenalRenumberElement.cs" />
+    <Compile Include="RenumberElement\Constants.cs" />
     <Compile Include="RenumberElement\frmRenumberElement.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="RenumberElement\frmRenumberElement.Designer.cs">
       <DependentUpon>frmRenumberElement.cs</DependentUpon>
     </Compile>
+    <Compile Include="RenumberElement\ParameterElementHandler.cs" />
     <Compile Include="RenumberElement\RenumberElementBinding.cs" />
     <Compile Include="RenumberElement\RenumberElementHandler.cs" />
     <Compile Include="TransferMore\AppPenalTransferMore.cs" />
