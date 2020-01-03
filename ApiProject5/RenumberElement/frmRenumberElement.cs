@@ -44,5 +44,26 @@ namespace ApiProject5.RenumberElement
         {
             _eventParameter.Raise();
         }
+
+        private void textBoxPrefitRenumber_TextChanged(object sender, EventArgs e)
+        {
+            AppPenalRenumberElement.myFormRenumberElement.textBoxPreviewRenumber.Clear();
+            AppPenalRenumberElement.myFormRenumberElement.textBoxPreviewRenumber.Text = AppPenalRenumberElement.myFormRenumberElement.textBoxPrefitRenumber.Text +
+                AppPenalRenumberElement.myFormRenumberElement.textBoxMainRenumber.Text + AppPenalRenumberElement.myFormRenumberElement.textBoxSubffixRenumber.Text;
+        }
+
+        private void textBoxSubffixRenumber_TextChanged(object sender, EventArgs e)
+        {
+            AppPenalRenumberElement.myFormRenumberElement.textBoxPreviewRenumber.Clear();
+            AppPenalRenumberElement.myFormRenumberElement.textBoxPreviewRenumber.Text = AppPenalRenumberElement.myFormRenumberElement.textBoxPrefitRenumber.Text +
+                AppPenalRenumberElement.myFormRenumberElement.textBoxMainRenumber.Text + AppPenalRenumberElement.myFormRenumberElement.textBoxSubffixRenumber.Text;
+        }
+
+        private void textBoxMainRenumber_KeyUp(object sender, KeyEventArgs e)
+        {
+            AppPenalRenumberElement.myFormRenumberElement.textBoxPreviewRenumber.Clear();
+            AppPenalRenumberElement.myFormRenumberElement.textBoxPreviewRenumber.Text = AppPenalRenumberElement.myFormRenumberElement.textBoxPrefitRenumber.Text +
+                AppPenalRenumberElement.myFormRenumberElement.textBoxMainRenumber.Text + AppPenalRenumberElement.myFormRenumberElement.textBoxSubffixRenumber.Text;
+        }
     }
 }

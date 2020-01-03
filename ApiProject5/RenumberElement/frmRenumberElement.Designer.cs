@@ -98,6 +98,7 @@
             this.textBoxMainRenumber.Size = new System.Drawing.Size(212, 20);
             this.textBoxMainRenumber.TabIndex = 3;
             this.textBoxMainRenumber.Text = "01";
+            this.textBoxMainRenumber.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxMainRenumber_KeyUp);
             // 
             // label5
             // 
@@ -114,6 +115,7 @@
             this.textBoxPrefitRenumber.Name = "textBoxPrefitRenumber";
             this.textBoxPrefitRenumber.Size = new System.Drawing.Size(212, 20);
             this.textBoxPrefitRenumber.TabIndex = 3;
+            this.textBoxPrefitRenumber.TextChanged += new System.EventHandler(this.textBoxPrefitRenumber_TextChanged);
             // 
             // textBoxSubffixRenumber
             // 
@@ -121,6 +123,7 @@
             this.textBoxSubffixRenumber.Name = "textBoxSubffixRenumber";
             this.textBoxSubffixRenumber.Size = new System.Drawing.Size(212, 20);
             this.textBoxSubffixRenumber.TabIndex = 3;
+            this.textBoxSubffixRenumber.TextChanged += new System.EventHandler(this.textBoxSubffixRenumber_TextChanged);
             // 
             // btnStartRenumberElement
             // 
