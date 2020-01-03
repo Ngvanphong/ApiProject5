@@ -79,3 +79,4 @@ C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\ApiPr
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.pdb
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.csprojAssemblyReference.cache
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.TransferMore.frmTransferMore.resources
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.RenumberElement.frmRenumberElement.resources
