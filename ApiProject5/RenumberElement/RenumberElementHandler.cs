@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.UI;
+﻿using ApiProject5.Helper;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
-using System.Text.RegularExpressions;
+
 namespace ApiProject5.RenumberElement
 {
     public class RenumberElementHandler : IExternalEventHandler
@@ -14,20 +10,51 @@ namespace ApiProject5.RenumberElement
         public void Execute(UIApplication app)
         {
             Document doc = app.ActiveUIDocument.Document;
-            int mainNumber =int.Parse(AppPenalRenumberElement.myFormRenumberElement.textBoxMainRenumber.Text);
+            string mainString = AppPenalRenumberElement.myFormRenumberElement.textBoxMainRenumber.Text;
+            int mainNumber = int.Parse(AppPenalRenumberElement.myFormRenumberElement.textBoxMainRenumber.Text);
             string prefixNumber = AppPenalRenumberElement.myFormRenumberElement.textBoxPrefitRenumber.Text;
             string subffixNumber = AppPenalRenumberElement.myFormRenumberElement.textBoxSubffixRenumber.Text;
-            while (!AppPenalRenumberElement.StopRenumber)
+            int step = int.Parse(AppPenalRenumberElement.myFormRenumberElement.numericUpDownStepRenumber.Value.ToString());
+            string nameCategory = AppPenalRenumberElement.myFormRenumberElement.comboBoxTypeElementRenumber
+                .GetItemText(AppPenalRenumberElement.myFormRenumberElement.comboBoxTypeElementRenumber.SelectedItem);
+            string nameParameter = AppPenalRenumberElement.myFormRenumberElement.comboBoxParameterRenumerElement
+                .GetItemText(AppPenalRenumberElement.myFormRenumberElement.comboBoxParameterRenumerElement.SelectedItem);
+
+            if (nameCategory == Constants.Room)
             {
-                try
+                Category cate = doc.Settings.Categories.get_Item(BuiltInCategory.OST_Rooms);
+                SelectionFilterCategory filterCate = new SelectionFilterCategory(cate);
+                while (!AppPenalRenumberElement.StopRenumber)
                 {
-                    var referElement = app.ActiveUIDocument.Selection.PickObject(ObjectType.Element);
-                    var id = doc.GetElement(referElement).Id;
-
-
-                    
+                    try
+                    {
+                        var referElement = app.ActiveUIDocument.Selection.PickObject(ObjectType.Element, filterCate);
+                        Element elementSet = doc.GetElement(referElement);
+                        string inputMain = mainString;
+                        if (mainString.Length > mainNumber.ToString().Length)
+                        {
+                            inputMain = mainString.Substring(0, mainString.Length - mainNumber.ToString().Length) + mainNumber.ToString();
+                        }
+                        else
+                        {
+                            inputMain = mainNumber.ToString();
+                        }
+                        string newStringSet = prefixNumber + inputMain + subffixNumber;
+                        Parameter paraSet = elementSet.LookupParameter(nameParameter);
+                        using (Transaction t4 = new Transaction(doc, "SetRenumberV1"))
+                        {
+                            t4.Start();
+                            try
+                            {
+                                paraSet.Set(newStringSet);
+                                mainNumber += step;
+                                t4.Commit();
+                            }
+                            catch { t4.RollBack(); }
+                        }
+                    }
+                    catch { break; }
                 }
-                catch { break; }
             }
         }
 
