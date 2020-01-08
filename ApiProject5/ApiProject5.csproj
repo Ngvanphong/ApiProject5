@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Button\MoveElementsButton.cs" />
     <Compile Include="Button\ParameterSetButton.cs" />
     <Compile Include="Button\RenumberElementButton.cs" />
     <Compile Include="Button\TransferMoreButton.cs" />
@@ -99,6 +100,16 @@
     <Compile Include="Helper\Extension.cs" />
     <Compile Include="Helper\ParameterRevit.cs" />
     <Compile Include="Helper\SelectionFilterCategory.cs" />
+    <Compile Include="MoveElements\AppPenalMoveElements.cs" />
+    <Compile Include="MoveElements\Constants.cs" />
+    <Compile Include="MoveElements\frmMoveElements.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MoveElements\frmMoveElements.Designer.cs">
+      <DependentUpon>frmMoveElements.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MoveElements\MoveElementsHandler.cs" />
+    <Compile Include="MoveElements\MoveElementsBinding.cs" />
     <Compile Include="ParameterSetValue\AppPanalParameterSet.cs" />
     <Compile Include="ParameterSetValue\Constant.cs" />
     <Compile Include="ParameterSetValue\frmParameterSet.cs">
@@ -141,6 +152,7 @@
     <Content Include="ApiProject5.addin">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\icons8-move-32.png" />
     <None Include="Resources\icons8-numbered-list-32.png" />
     <None Include="Resources\icons8-data-transfer-32.png" />
     <None Include="Resources\icons8-set-as-resume-32.png" />
@@ -150,6 +162,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <EmbeddedResource Include="MoveElements\frmMoveElements.resx">
+      <DependentUpon>frmMoveElements.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ParameterSetValue\frmParameterSet.resx">
       <DependentUpon>frmParameterSet.cs</DependentUpon>
     </EmbeddedResource>

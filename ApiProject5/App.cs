@@ -17,6 +17,8 @@ namespace ApiProject5
             transferButton.TransferMoreFuc(a);
             RenumberElementButton renumberElementButton = new RenumberElementButton();
             renumberElementButton.RenumberElementFuc(a);
+            MoveElementsButton moveElementsButton = new MoveElementsButton();
+            moveElementsButton.MoveElements(a);
             return Result.Succeeded;
         }
 
