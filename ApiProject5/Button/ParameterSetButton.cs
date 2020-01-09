@@ -41,7 +41,6 @@ namespace ApiProject5.Button
                 Image = imgSrc,
                 LargeImage = imgSrc,
             };
-
             PushButton button = panel.AddItem(btnData) as PushButton;
             button.Enabled = true;
         }

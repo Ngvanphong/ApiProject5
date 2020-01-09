@@ -33,11 +33,11 @@ namespace ApiProject5.Button
             }
             Image img = ApiProject5.Properties.Resources.icons8_move_32;
             ImageSource imgSrc = Helper.Extension.GetImageSource(img);
-            PushButtonData btnData = new PushButtonData("MoveElements", "Move \r Elements",
+            PushButtonData btnData = new PushButtonData("MoveProject", "Move \r Project",
                 Assembly.GetExecutingAssembly().Location, "ApiProject5.MoveElements.MoveElementsBinding")
             {
-                ToolTip = "Move all elements in revit",
-                LongDescription = "Move all elements in revit",
+                ToolTip = "Move all elements in project",
+                LongDescription = "Move all elements in project",
                 Image = imgSrc,
                 LargeImage = imgSrc,
             };
