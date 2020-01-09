@@ -35,6 +35,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxDistanceZ = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBoxRotateProject = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -73,7 +75,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(207, 88);
+            this.button1.Location = new System.Drawing.Point(207, 109);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 2;
@@ -98,14 +100,33 @@
             this.textBoxDistanceZ.TabIndex = 1;
             this.textBoxDistanceZ.Text = "0";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 87);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(68, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Rotate(Deg):";
+            // 
+            // textBoxRotateProject
+            // 
+            this.textBoxRotateProject.Location = new System.Drawing.Point(80, 83);
+            this.textBoxRotateProject.Name = "textBoxRotateProject";
+            this.textBoxRotateProject.Size = new System.Drawing.Size(202, 20);
+            this.textBoxRotateProject.TabIndex = 3;
+            this.textBoxRotateProject.Text = "0";
+            // 
             // frmMoveElements
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(289, 119);
+            this.ClientSize = new System.Drawing.Size(289, 142);
+            this.Controls.Add(this.textBoxRotateProject);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBoxDistanceZ);
             this.Controls.Add(this.textBoxDistanceY);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBoxDistanceX);
             this.Controls.Add(this.label2);
@@ -131,5 +152,7 @@
         public System.Windows.Forms.TextBox textBoxDistanceX;
         public System.Windows.Forms.TextBox textBoxDistanceY;
         public System.Windows.Forms.TextBox textBoxDistanceZ;
+        private System.Windows.Forms.Label label4;
+        public System.Windows.Forms.TextBox textBoxRotateProject;
     }
 }

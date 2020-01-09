@@ -14,6 +14,7 @@ namespace ApiProject5.MoveElements
             double x = double.Parse(AppPenalMoveElements.myFormMoveElements.textBoxDistanceX.Text) / 304.8;
             double y = double.Parse(AppPenalMoveElements.myFormMoveElements.textBoxDistanceY.Text) / 304.8;
             double z = double.Parse(AppPenalMoveElements.myFormMoveElements.textBoxDistanceZ.Text) / 304.8;
+            double deg = double.Parse(AppPenalMoveElements.myFormMoveElements.textBoxRotateProject.Text) * Math.PI / 180.0;
             XYZ vector = new XYZ(x, y, z);
             var allElements = new FilteredElementCollector(doc).WhereElementIsNotElementType().ToElementIds();
             var allElementsPin = new FilteredElementCollector(doc).WhereElementIsNotElementType().ToElements().Where(k => k.Pinned == true && k.CanBeLocked());
@@ -38,17 +39,33 @@ namespace ApiProject5.MoveElements
                     }
                 }
             }
-            using (Transaction t = new Transaction(doc, "MoveElementsRevit"))
+            if (x != 0 || y != 0 || z != 0)
             {
-                t.Start();
-                try
+                using (Transaction t = new Transaction(doc, "MoveElementsRevit"))
                 {
-                    Autodesk.Revit.DB.ElementTransformUtils.MoveElements(doc, allElements, vector);
-                    t.Commit();
+                    t.Start();
+                    try
+                    {
+                        Autodesk.Revit.DB.ElementTransformUtils.MoveElements(doc, allElements, vector);
+                        t.Commit();
+                    }
+                    catch (Exception e) { t.RollBack(); }
                 }
-                catch (Exception e) { t.RollBack(); }
             }
-
+            if (deg != 0)
+            {
+                using (Transaction t2 = new Transaction(doc, "RotateElementsRevit"))
+                {
+                    t2.Start();
+                    try
+                    {
+                        Line line = Line.CreateBound(new XYZ(0, 0, 0), new XYZ(0, 0, 1));
+                        Autodesk.Revit.DB.ElementTransformUtils.RotateElements(doc, allElements, line, deg);
+                        t2.Commit();
+                    }
+                    catch (Exception e) { t2.RollBack(); }
+                }
+            }
             foreach (var pinEleId in listPinActiion)
             {
                 using (Transaction t4 = new Transaction(doc, "PinProject2"))
@@ -67,6 +84,7 @@ namespace ApiProject5.MoveElements
                 }
             }
         }
+
         public string GetName()
         {
             return "MoveElementsHanndler2";

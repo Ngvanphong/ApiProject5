@@ -28,7 +28,12 @@ namespace ApiProject5.MoveElements
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _eventMoveElements.Raise();
+            string warning = "WARNING: Do you want to move or rotate project.";
+            DialogResult result = MessageBox.Show(warning, "Move, Rotate", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (result == DialogResult.OK)
+            {
+                _eventMoveElements.Raise();
+            }
         }
     }
 }
