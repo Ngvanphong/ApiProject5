@@ -16,14 +16,27 @@ namespace ApiProject5.MoveElements
             double z = double.Parse(AppPenalMoveElements.myFormMoveElements.textBoxDistanceZ.Text) / 304.8;
             double deg = double.Parse(AppPenalMoveElements.myFormMoveElements.textBoxRotateProject.Text) * Math.PI / 180.0;
             XYZ vector = new XYZ(x, y, z);
-            
+
             ElementCategoryFilter categoryFilter = new ElementCategoryFilter(BuiltInCategory.OST_Viewports, true);
             ElementCategoryFilter categoryFilterTitleBlock = new ElementCategoryFilter(BuiltInCategory.OST_TitleBlocks, true);
             ElementCategoryFilter categoryFilterScheduleGaphics = new ElementCategoryFilter(BuiltInCategory.OST_ScheduleGraphics, true);
 
             var filter = new FilteredElementCollector(doc).WherePasses(categoryFilter).WherePasses(categoryFilterTitleBlock).
                 WherePasses(categoryFilterScheduleGaphics);
+
+            var viewSheetFilter = new FilteredElementCollector(doc).OfClass(typeof(ViewSheet)).Cast<ViewSheet>().ToList();
+            List<ElementId> listIdExcept = new List<ElementId>();
+            foreach (ViewSheet viewSheet in viewSheetFilter)
+            {
+                if (viewSheet != null)
+                {
+                    var listIdDependent = viewSheet.GetDependentElements(null);
+                    listIdExcept.AddRange(listIdDependent);
+                }
+            }
+
             var allElements = filter.WhereElementIsNotElementType().ToElementIds();
+            allElements = allElements.Except(listIdExcept).ToList();
             var allElementsPin = filter.WhereElementIsNotElementType().ToElements().Where(k => k.Pinned == true && k.CanBeLocked());
             List<ElementId> listPinActiion = new List<ElementId>();
             foreach (var pinEle in allElementsPin)
