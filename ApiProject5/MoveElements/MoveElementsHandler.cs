@@ -17,14 +17,14 @@ namespace ApiProject5.MoveElements
             double deg = double.Parse(AppPenalMoveElements.myFormMoveElements.textBoxRotateProject.Text) * Math.PI / 180.0;
             XYZ vector = new XYZ(x, y, z);
 
-            ElementCategoryFilter categoryFilter = new ElementCategoryFilter(BuiltInCategory.OST_Viewports, true);
-            ElementCategoryFilter categoryFilterTitleBlock = new ElementCategoryFilter(BuiltInCategory.OST_TitleBlocks, true);
-            ElementCategoryFilter categoryFilterScheduleGaphics = new ElementCategoryFilter(BuiltInCategory.OST_ScheduleGraphics, true);
+            //ElementCategoryFilter categoryFilter = new ElementCategoryFilter(BuiltInCategory.OST_Viewports, true);
+            //ElementCategoryFilter categoryFilterTitleBlock = new ElementCategoryFilter(BuiltInCategory.OST_TitleBlocks, true);
+            //ElementCategoryFilter categoryFilterScheduleGaphics = new ElementCategoryFilter(BuiltInCategory.OST_ScheduleGraphics, true);
 
-            var filter = new FilteredElementCollector(doc).WherePasses(categoryFilter).WherePasses(categoryFilterTitleBlock).
-                WherePasses(categoryFilterScheduleGaphics);
+            var filter = new FilteredElementCollector(doc);
 
             var viewSheetFilter = new FilteredElementCollector(doc).OfClass(typeof(ViewSheet)).Cast<ViewSheet>().ToList();
+            var viewLegend= new FilteredElementCollector(doc).OfClass(typeof(View)).Cast<View>().ToList();
             List<ElementId> listIdExcept = new List<ElementId>();
             foreach (ViewSheet viewSheet in viewSheetFilter)
             {
@@ -33,6 +33,15 @@ namespace ApiProject5.MoveElements
                     var listIdDependent = viewSheet.GetDependentElements(null);
                     listIdExcept.AddRange(listIdDependent);
                 }
+            }
+            foreach (View item in viewLegend)
+            {
+                if (item.ViewType == ViewType.Legend)
+                {
+                    var listIdDependent = item.GetDependentElements(null);
+                    listIdExcept.AddRange(listIdDependent);
+                }
+              
             }
 
             var allElements = filter.WhereElementIsNotElementType().ToElementIds();
