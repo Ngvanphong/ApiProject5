@@ -16,15 +16,9 @@ namespace ApiProject5.MoveElements
             double z = double.Parse(AppPenalMoveElements.myFormMoveElements.textBoxDistanceZ.Text) / 304.8;
             double deg = double.Parse(AppPenalMoveElements.myFormMoveElements.textBoxRotateProject.Text) * Math.PI / 180.0;
             XYZ vector = new XYZ(x, y, z);
-
-            //ElementCategoryFilter categoryFilter = new ElementCategoryFilter(BuiltInCategory.OST_Viewports, true);
-            //ElementCategoryFilter categoryFilterTitleBlock = new ElementCategoryFilter(BuiltInCategory.OST_TitleBlocks, true);
-            //ElementCategoryFilter categoryFilterScheduleGaphics = new ElementCategoryFilter(BuiltInCategory.OST_ScheduleGraphics, true);
-
             var filter = new FilteredElementCollector(doc);
-
             var viewSheetFilter = new FilteredElementCollector(doc).OfClass(typeof(ViewSheet)).Cast<ViewSheet>().ToList();
-            var viewLegend= new FilteredElementCollector(doc).OfClass(typeof(View)).Cast<View>().ToList();
+            var viewLegend = new FilteredElementCollector(doc).OfClass(typeof(View)).Cast<View>().ToList();
             List<ElementId> listIdExcept = new List<ElementId>();
             foreach (ViewSheet viewSheet in viewSheetFilter)
             {
@@ -36,14 +30,12 @@ namespace ApiProject5.MoveElements
             }
             foreach (View item in viewLegend)
             {
-                if (item.ViewType == ViewType.Legend)
+                if (item.ViewType == ViewType.Legend || item.ViewType == ViewType.DraftingView)
                 {
                     var listIdDependent = item.GetDependentElements(null);
                     listIdExcept.AddRange(listIdDependent);
                 }
-              
             }
-
             var allElements = filter.WhereElementIsNotElementType().ToElementIds();
             allElements = allElements.Except(listIdExcept).ToList();
             var allElementsPin = filter.WhereElementIsNotElementType().ToElements().Where(k => k.Pinned == true && k.CanBeLocked());
