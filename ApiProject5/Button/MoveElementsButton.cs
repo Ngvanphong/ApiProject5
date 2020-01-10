@@ -33,7 +33,7 @@ namespace ApiProject5.Button
             }
             Image img = ApiProject5.Properties.Resources.icons8_move_32;
             ImageSource imgSrc = Helper.Extension.GetImageSource(img);
-            PushButtonData btnData = new PushButtonData("MoveProject", "Move \r Project",
+            PushButtonData btnData = new PushButtonData("MoveProject", "Move Rotate \r Project",
                 Assembly.GetExecutingAssembly().Location, "ApiProject5.MoveElements.MoveElementsBinding")
             {
                 ToolTip = "Move all elements in project",

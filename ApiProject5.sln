@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiProject5", "ApiProject5\ApiProject5.csproj", "{74FD9CD9-AB8E-4663-8548-DBB534AE87A7}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupApiProject52019", "SetupApiProject52019\SetupApiProject52019.vdproj", "{476C378B-1249-4899-92F1-CC041B43A696}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +23,15 @@ Global
 		{74FD9CD9-AB8E-4663-8548-DBB534AE87A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74FD9CD9-AB8E-4663-8548-DBB534AE87A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74FD9CD9-AB8E-4663-8548-DBB534AE87A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{476C378B-1249-4899-92F1-CC041B43A696}.2019|Any CPU.ActiveCfg = Release
+		{476C378B-1249-4899-92F1-CC041B43A696}.2020|Any CPU.ActiveCfg = Release
+		{476C378B-1249-4899-92F1-CC041B43A696}.Debug|Any CPU.ActiveCfg = Debug
+		{476C378B-1249-4899-92F1-CC041B43A696}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AFA4C455-8B0F-4FD2-A0F6-042171A701CD}
 	EndGlobalSection
 EndGlobal
