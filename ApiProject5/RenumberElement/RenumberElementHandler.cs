@@ -84,9 +84,9 @@ namespace ApiProject5.RenumberElement
                         }
                         string newStringSet = prefixNumber + inputMain + subffixNumber;
                         Parameter paraSet = elementSet.LookupParameter(nameParameter);
-                        using (Transaction t4 = new Transaction(doc, "SetRenumberV2"))
+                        using (Transaction t3 = new Transaction(doc, "SetRenumberV2"))
                         {
-                            t4.Start();
+                            t3.Start();
                             try
                             {
                                 paraSet.Set(newStringSet);
@@ -100,9 +100,9 @@ namespace ApiProject5.RenumberElement
                                     inputMain = mainNumber.ToString();
                                 }
                                 AppPenalRenumberElement.myFormRenumberElement.textBoxMainRenumber.Text = inputMain;
-                                t4.Commit();
+                                t3.Commit();
                             }
-                            catch { t4.RollBack(); }
+                            catch { t3.RollBack(); }
                         }
                     }
                 }
