@@ -43,7 +43,11 @@
             this.label7 = new System.Windows.Forms.Label();
             this.comboBoxParameterRenumerElement = new System.Windows.Forms.ComboBox();
             this.numericUpDownStepRenumber = new System.Windows.Forms.NumericUpDown();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButtonManualSelect = new System.Windows.Forms.RadioButton();
+            this.radioButtonAutoBottomLeft = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownStepRenumber)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -180,11 +184,45 @@
             0,
             0});
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.radioButtonAutoBottomLeft);
+            this.groupBox1.Controls.Add(this.radioButtonManualSelect);
+            this.groupBox1.Location = new System.Drawing.Point(306, 13);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(163, 78);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Type:";
+            // 
+            // radioButtonManualSelect
+            // 
+            this.radioButtonManualSelect.AutoSize = true;
+            this.radioButtonManualSelect.Checked = true;
+            this.radioButtonManualSelect.Location = new System.Drawing.Point(7, 20);
+            this.radioButtonManualSelect.Name = "radioButtonManualSelect";
+            this.radioButtonManualSelect.Size = new System.Drawing.Size(85, 17);
+            this.radioButtonManualSelect.TabIndex = 0;
+            this.radioButtonManualSelect.TabStop = true;
+            this.radioButtonManualSelect.Text = "Single select";
+            this.radioButtonManualSelect.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonAutoBottomLeft
+            // 
+            this.radioButtonAutoBottomLeft.AutoSize = true;
+            this.radioButtonAutoBottomLeft.Location = new System.Drawing.Point(7, 43);
+            this.radioButtonAutoBottomLeft.Name = "radioButtonAutoBottomLeft";
+            this.radioButtonAutoBottomLeft.Size = new System.Drawing.Size(139, 17);
+            this.radioButtonAutoBottomLeft.TabIndex = 0;
+            this.radioButtonAutoBottomLeft.Text = "Multi select (Left->Right)";
+            this.radioButtonAutoBottomLeft.UseVisualStyleBackColor = true;
+            // 
             // frmRenumberElement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(304, 215);
+            this.ClientSize = new System.Drawing.Size(481, 215);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnStartRenumberElement);
             this.Controls.Add(this.textBoxPrefitRenumber);
             this.Controls.Add(this.textBoxPreviewRenumber);
@@ -209,6 +247,8 @@
             this.Load += new System.EventHandler(this.frmRenumberElement_Load);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.frmRenumberElement_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownStepRenumber)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -231,5 +271,8 @@
         public System.Windows.Forms.TextBox textBoxMainRenumber;
         public System.Windows.Forms.TextBox textBoxSubffixRenumber;
         public System.Windows.Forms.TextBox textBoxPreviewRenumber;
+        private System.Windows.Forms.GroupBox groupBox1;
+        public System.Windows.Forms.RadioButton radioButtonAutoBottomLeft;
+        public System.Windows.Forms.RadioButton radioButtonManualSelect;
     }
 }
