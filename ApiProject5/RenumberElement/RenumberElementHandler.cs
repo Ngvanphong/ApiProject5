@@ -1,6 +1,5 @@
 ﻿using ApiProject5.Helper;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
 using System.Collections.Generic;
@@ -26,53 +25,45 @@ namespace ApiProject5.RenumberElement
             {
                 Category cate = doc.Settings.Categories.get_Item(BuiltInCategory.OST_Rooms);
                 SelectionFilterCategory filterCate = new SelectionFilterCategory(cate);
-                if (AppPenalRenumberElement.myFormRenumberElement.radioButtonManualSelect.Checked)
+                ActionRange(app, mainString, mainNumber, subffixNumber, prefixNumber, nameParameter, step, filterCate);
+            }
+            else
+            {
+                Category cate = null;
+                if (nameCategory == Constants.Door)
                 {
-                    while (!AppPenalRenumberElement.StopRenumber)
-                    {
-                        try
-                        {
-                            var referElement = app.ActiveUIDocument.Selection.PickObject(ObjectType.Element, filterCate);
-                            Element elementSet = doc.GetElement(referElement);
-                            string inputMain = mainString;
-                            if (mainString.Length > mainNumber.ToString().Length)
-                            {
-                                inputMain = mainString.Substring(0, mainString.Length - mainNumber.ToString().Length) + mainNumber.ToString();
-                            }
-                            else
-                            {
-                                inputMain = mainNumber.ToString();
-                            }
-                            string newStringSet = prefixNumber + inputMain + subffixNumber;
-                            Parameter paraSet = elementSet.LookupParameter(nameParameter);
-                            using (Transaction t4 = new Transaction(doc, "SetRenumberV1"))
-                            {
-                                t4.Start();
-                                try
-                                {
-                                    paraSet.Set(newStringSet);
-                                    mainNumber += step;
-                                    t4.Commit();
-                                }
-                                catch { t4.RollBack(); }
-                            }
-                        }
-                        catch { break; }
-                    }
+                    cate = doc.Settings.Categories.get_Item(BuiltInCategory.OST_Doors);
                 }
-                else
+                else if (nameCategory == Constants.Window)
                 {
-                    MyOrder myOrder = new MyOrder();
-                    var allSelect = app.ActiveUIDocument.Selection.PickObjects(ObjectType.Element, filterCate);
-                    List<Room> listRoom = new List<Room>();
-                    foreach (var item in allSelect)
+                    cate = doc.Settings.Categories.get_Item(BuiltInCategory.OST_Windows);
+                }
+                else if (nameCategory == Constants.Pile)
+                {
+                    cate = doc.Settings.Categories.get_Item(BuiltInCategory.OST_StructuralFoundation);
+                }
+                SelectionFilterCategory filterCate = new SelectionFilterCategory(cate);
+                ActionRange(app, mainString, mainNumber, subffixNumber, prefixNumber, nameParameter, step, filterCate);
+            }
+        }
+
+        public string GetName()
+        {
+            return "RenumberElementRev1";
+        }
+
+        public void ActionRange(UIApplication app, string mainString, int mainNumber, string subffixNumber, string prefixNumber,
+            string nameParameter, int step, SelectionFilterCategory filterCate)
+        {
+            Document doc = app.ActiveUIDocument.Document;
+            if (AppPenalRenumberElement.myFormRenumberElement.radioButtonManualSelect.Checked)
+            {
+                while (!AppPenalRenumberElement.StopRenumber)
+                {
+                    try
                     {
-                        Room room = doc.GetElement(item) as Room;
-                        listRoom.Add(room);
-                    }
-                    listRoom.Sort(myOrder);
-                    foreach (Room elementSet in listRoom)
-                    {
+                        var referElement = app.ActiveUIDocument.Selection.PickObject(ObjectType.Element, filterCate);
+                        Element elementSet = doc.GetElement(referElement);
                         string inputMain = mainString;
                         if (mainString.Length > mainNumber.ToString().Length)
                         {
@@ -84,34 +75,67 @@ namespace ApiProject5.RenumberElement
                         }
                         string newStringSet = prefixNumber + inputMain + subffixNumber;
                         Parameter paraSet = elementSet.LookupParameter(nameParameter);
-                        using (Transaction t3 = new Transaction(doc, "SetRenumberV2"))
+                        using (Transaction t4 = new Transaction(doc, "SetRenumberV1"))
                         {
-                            t3.Start();
+                            t4.Start();
                             try
                             {
                                 paraSet.Set(newStringSet);
                                 mainNumber += step;
-                                if (mainString.Length > mainNumber.ToString().Length)
-                                {
-                                    inputMain = mainString.Substring(0, mainString.Length - mainNumber.ToString().Length) + mainNumber.ToString();
-                                }
-                                else
-                                {
-                                    inputMain = mainNumber.ToString();
-                                }
-                                AppPenalRenumberElement.myFormRenumberElement.textBoxMainRenumber.Text = inputMain;
-                                t3.Commit();
+                                t4.Commit();
                             }
-                            catch { t3.RollBack(); }
+                            catch { t4.RollBack(); }
                         }
+                    }
+                    catch { break; }
+                }
+            }
+            else
+            {
+                MyOrder myOrder = new MyOrder();
+                var allSelect = app.ActiveUIDocument.Selection.PickObjects(ObjectType.Element, filterCate);
+                List<Element> listRoom = new List<Element>();
+                foreach (var item in allSelect)
+                {
+                    Element ele = doc.GetElement(item);
+                    listRoom.Add(ele);
+                }
+                listRoom.Sort(myOrder);
+                foreach (Element elementSet in listRoom)
+                {
+                    string inputMain = mainString;
+                    if (mainString.Length > mainNumber.ToString().Length)
+                    {
+                        inputMain = mainString.Substring(0, mainString.Length - mainNumber.ToString().Length) + mainNumber.ToString();
+                    }
+                    else
+                    {
+                        inputMain = mainNumber.ToString();
+                    }
+                    string newStringSet = prefixNumber + inputMain + subffixNumber;
+                    Parameter paraSet = elementSet.LookupParameter(nameParameter);
+                    using (Transaction t3 = new Transaction(doc, "SetRenumberV2"))
+                    {
+                        t3.Start();
+                        try
+                        {
+                            paraSet.Set(newStringSet);
+                            mainNumber += step;
+                            if (mainString.Length > mainNumber.ToString().Length)
+                            {
+                                inputMain = mainString.Substring(0, mainString.Length - mainNumber.ToString().Length) + mainNumber.ToString();
+                            }
+                            else
+                            {
+                                inputMain = mainNumber.ToString();
+                            }
+                            AppPenalRenumberElement.myFormRenumberElement.textBoxMainRenumber.Text = inputMain;
+                            t3.Commit();
+                        }
+                        catch { t3.RollBack(); }
                     }
                 }
             }
-        }
-
-        public string GetName()
-        {
-            return "RenumberElementRev1";
         }
     }
 }

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace ApiProject5.RenumberElement
 {
-    public class MyOrder : IComparer<Room>
+    public class MyOrder : IComparer<Element>
     {
-        public int Compare(Room x, Room y)
+        public int Compare(Element x, Element y)
         {
             LocationPoint loc = x.Location as LocationPoint;
             double pointCenter = loc.Point.X;
@@ -26,4 +26,5 @@ namespace ApiProject5.RenumberElement
             return compareLoc;
         }
     }
+    
 }

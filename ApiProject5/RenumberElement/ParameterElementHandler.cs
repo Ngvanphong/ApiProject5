@@ -24,9 +24,19 @@ namespace ApiProject5.RenumberElement
                 AppPenalRenumberElement.myFormRenumberElement.comboBoxParameterRenumerElement.Items.Add(new { Text = "Number", Value = "Number" });
                 AppPenalRenumberElement.myFormRenumberElement.comboBoxParameterRenumerElement.SelectedIndex = 0;
             }
-            else if (cateChoice == Constants.Pile)
+            else 
             {
-                var elList = new FilteredElementCollector(doc).WherePasses(new ElementCategoryFilter(BuiltInCategory.OST_StructuralFoundation));
+                List<Element> elList = new List<Element>();
+                if (cateChoice == Constants.Door)
+                {
+                    elList  = new FilteredElementCollector(doc).WherePasses(new ElementCategoryFilter(BuiltInCategory.OST_Doors)).ToElements().ToList();
+                }else if (cateChoice == Constants.Window)
+                {
+                    elList = new FilteredElementCollector(doc).WherePasses(new ElementCategoryFilter(BuiltInCategory.OST_Windows)).ToElements().ToList();
+                }else if(cateChoice == Constants.Pile)
+                {
+                    elList = new FilteredElementCollector(doc).WherePasses(new ElementCategoryFilter(BuiltInCategory.OST_StructuralFoundation)).ToElements().ToList();
+                };
                 List<FamilyInstance> listOther = new List<FamilyInstance>();
                 List<string> listParaName = new List<string>();
                 foreach(Element elItem in elList)
@@ -62,6 +72,7 @@ namespace ApiProject5.RenumberElement
                 {
                     AppPenalRenumberElement.myFormRenumberElement.comboBoxParameterRenumerElement.Items.Add(new { Text = text, Value = text });
                 }
+                AppPenalRenumberElement.myFormRenumberElement.comboBoxParameterRenumerElement.SelectedIndex = 0;
             }
         }
 

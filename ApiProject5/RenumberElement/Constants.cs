@@ -10,8 +10,12 @@ namespace ApiProject5.RenumberElement
     {
         public  const string Room = "Room";
 
+        public const string Door = "Door";
+
+        public const string Window = "Window";
+
         public const string Pile = "Foundation";
         
-        public static List<string> ListCate { get { return new List<string> { Room, Pile }; } }
+        public static List<string> ListCate { get { return new List<string> { Room,Door,Window, Pile }; } }
     }
 }
