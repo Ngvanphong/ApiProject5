@@ -139,6 +139,10 @@ namespace ApiProject5.DynamoModel
             }
         }
 
+        private void frmDynamoModel_Load(object sender, EventArgs e)
+        {
+
+        }
     }
     }
 

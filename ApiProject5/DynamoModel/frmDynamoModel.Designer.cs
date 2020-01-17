@@ -119,6 +119,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmDynamoModel";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.frmDynamoModel_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPoint)).EndInit();
             this.ResumeLayout(false);
 
