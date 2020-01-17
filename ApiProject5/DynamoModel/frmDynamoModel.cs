@@ -104,9 +104,33 @@ namespace ApiProject5.DynamoModel
                     }
                     foreach (ExcelWorksheet worksheet2 in package.Workbook.Worksheets)
                     {
-                        for (int i = 0; i < 50; i++)
+                        for (int i = 0; i < 2; i++)
                         {
                             worksheet2.Column(i + 1).AutoFit();
+                        }
+                        foreach (var cell in worksheet2.Cells["A:A"])
+                        {
+                            try
+                            {
+                                cell.Value = Convert.ToDecimal(cell.Value);
+                            }
+                            catch { continue; }
+                        }
+                        foreach (var cell in worksheet2.Cells["B:B"])
+                        {
+                            try
+                            {
+                                cell.Value = Convert.ToDecimal(cell.Value);
+                            }
+                            catch{continue;}
+                        }
+                        foreach (var cell in worksheet2.Cells["C:C"])
+                        {
+                            try
+                            {
+                                cell.Value = Convert.ToDecimal(cell.Value);
+                            }
+                            catch{ continue; }                           
                         }
                     }
                     package.Save();
