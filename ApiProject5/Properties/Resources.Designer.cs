@@ -93,6 +93,16 @@ namespace ApiProject5.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_pain_point_32 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_pain_point_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_set_as_resume_32 {
             get {
                 object obj = ResourceManager.GetObject("icons8_set_as_resume_32", resourceCulture);

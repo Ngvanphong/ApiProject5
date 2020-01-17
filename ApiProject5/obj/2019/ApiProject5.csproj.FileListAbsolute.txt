@@ -80,4 +80,7 @@ C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiPro
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.csproj.CopyComplete
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.dll
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.pdb
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.DynamoModel.frmDynamoModel.resources
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\EPPlus.dll
+C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\bin\Debug\EPPlus.xml
 C:\Users\Windows 10\Documents\RevitApiV2\ApiProject5\ApiProject5\obj\2019\ApiProject5.csprojAssemblyReference.cache

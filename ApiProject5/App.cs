@@ -19,6 +19,8 @@ namespace ApiProject5
             renumberElementButton.RenumberElementFuc(a);
             MoveElementsButton moveElementsButton = new MoveElementsButton();
             moveElementsButton.MoveElements(a);
+            DynamoModelButton dynamoPointButton = new DynamoModelButton();
+            dynamoPointButton.DynamoPoint(a);
             return Result.Succeeded;
         }
 

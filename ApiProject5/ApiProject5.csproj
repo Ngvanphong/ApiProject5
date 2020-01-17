@@ -56,6 +56,9 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EPPlus, Version=4.5.3.2, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.3.2\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
     <Reference Include="FoxLearn.License">
       <HintPath>..\..\..\..\Downloads\FoxLearn.License\FoxLearn.License.dll</HintPath>
     </Reference>
@@ -77,9 +80,11 @@
       <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Text.RegularExpressions">
       <HintPath>..\packages\System.Text.RegularExpressions.4.3.1\lib\net463\System.Text.RegularExpressions.dll</HintPath>
       <Private>True</Private>
@@ -91,11 +96,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Button\DynamoModelButton.cs" />
     <Compile Include="Button\MoveElementsButton.cs" />
     <Compile Include="Button\ParameterSetButton.cs" />
     <Compile Include="Button\RenumberElementButton.cs" />
     <Compile Include="Button\TransferMoreButton.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="DynamoModel\AppPanelDynamoBinding.cs" />
+    <Compile Include="DynamoModel\AppPanelDynamoHandler.cs" />
+    <Compile Include="DynamoModel\AppPanelDynamoModel.cs" />
+    <Compile Include="DynamoModel\frmDynamoModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DynamoModel\frmDynamoModel.Designer.cs">
+      <DependentUpon>frmDynamoModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helper\CheckAccess.cs" />
     <Compile Include="Helper\Extension.cs" />
     <Compile Include="Helper\ParameterRevit.cs" />
@@ -153,6 +168,7 @@
     <Content Include="ApiProject5.addin">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\icons8-pain-point-32.png" />
     <None Include="Resources\icons8-move-32.png" />
     <None Include="Resources\icons8-numbered-list-32.png" />
     <None Include="Resources\icons8-data-transfer-32.png" />
@@ -163,6 +179,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <EmbeddedResource Include="DynamoModel\frmDynamoModel.resx">
+      <DependentUpon>frmDynamoModel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MoveElements\frmMoveElements.resx">
       <DependentUpon>frmMoveElements.cs</DependentUpon>
     </EmbeddedResource>
