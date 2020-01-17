@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using ApiProject5.Helper;
+﻿using ApiProject5.Helper;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
+using System.Collections.Generic;
+using System.Windows.Forms;
+
 namespace ApiProject5.DynamoModel
 {
     public class AppPanelDynamoHandler : IExternalEventHandler
@@ -33,25 +29,24 @@ namespace ApiProject5.DynamoModel
                     return;
                 }
             }
-            
+
             var selectLine = app.ActiveUIDocument.Selection.PickObjects(ObjectType.Element, categoryFilter);
             List<Element> listLine = new List<Element>();
-            if (selectLine.Count>0)
+            if (selectLine.Count > 0)
             {
                 foreach (var line in selectLine)
                 {
                     Element el = doc.GetElement(line);
                     listLine.Add(el);
                 }
-                
                 LocationCurve locationCurve = AppPanelDynamoModel.MainLine.Location as LocationCurve;
                 Curve curve = locationCurve.Curve;
                 IList<XYZ> listPoint = curve.Tessellate();
                 List<int> listIndex = getPointRevit(listPoint, listLine);
-                string[] row = new string[] { string.Empty, string.Empty, string.Empty,string.Empty };
-                for(int k= 0; k < listPoint.Count; k++)
+                string[] row = new string[] { string.Empty, string.Empty, string.Empty, string.Empty };
+                for (int k = 0; k < listPoint.Count; k++)
                 {
-                    if (listIndex.Exists(x=>x==k))
+                    if (listIndex.Exists(x => x == k))
                     {
                         row = new string[] { listPoint[k].X.ToString(), listPoint[k].Y.ToString(), listPoint[k].Z.ToString(), k.ToString() };
                     }
@@ -59,28 +54,25 @@ namespace ApiProject5.DynamoModel
                     {
                         row = new string[] { listPoint[k].X.ToString(), listPoint[k].Y.ToString(), listPoint[k].Z.ToString(), string.Empty };
                     }
-                    
                     AppPanelDynamoModel.myFormDynamoModel.dataGridViewPoint.Rows.Add(row);
                 }
-
             }
             else
             {
                 MessageBox.Show("You must select lines");
                 return;
             }
-           
-
         }
 
         public string GetName()
         {
             return "DynamoPointHandler";
         }
-        public List<int> getPointRevit(IList<XYZ> listPoints,List<Element> listElements)
+
+        public List<int> getPointRevit(IList<XYZ> listPoints, List<Element> listElements)
         {
             List<int> listResult = new List<int>();
-            foreach(Element el in listElements)
+            foreach (Element el in listElements)
             {
                 LocationCurve curegrLoca = el.Location as LocationCurve;
                 Curve curegr = curegrLoca.Curve;
@@ -93,7 +85,6 @@ namespace ApiProject5.DynamoModel
                 int startIndex = 0;
                 foreach (var p in listPoints)
                 {
-
                     double k = (u.X * p.X + u.Y * p.Y + u.Z * p.Z - u.X * g1.X - u.Y * g1.Y - u.Z * g1.Z) / (u.X * u.X + u.Y * u.Y + u.Z * u.Z);
                     XYZ H = new XYZ(g1.X + u.X * k, g1.Y + u.Y * k, g1.Z + u.Z * k);
                     double h = (p.X - H.X) * (p.X - H.X) + (p.Y - H.Y) * (p.Y - H.Y) + (p.Z - H.Z) * (p.Z - H.Z);
@@ -107,7 +98,6 @@ namespace ApiProject5.DynamoModel
                 }
                 listResult.Add(startIndex);
             }
-
             return listResult;
         }
     }
