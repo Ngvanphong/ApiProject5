@@ -77,6 +77,7 @@ namespace ApiProject5.DynamoModel
                         datatable.Columns.Add("X");
                         datatable.Columns.Add("Y");
                         datatable.Columns.Add("Z");
+                        datatable.Columns.Add("Length");
                         datatable.Columns.Add("Index");
                         DataRow dr = null;
 
@@ -92,7 +93,8 @@ namespace ApiProject5.DynamoModel
                                 dr["X"] = row.Cells[0].Value;
                                 dr["Y"] = row.Cells[1].Value;
                                 dr["Z"] = row.Cells[2].Value;
-                                dr["Index"] = row.Cells[3].Value;
+                                dr["Length"] = row.Cells[3].Value;
+                                dr["Index"] = row.Cells[4].Value;
                                 datatable.Rows.Add(dr);
                             }
                             catch { continue; }
@@ -125,6 +127,14 @@ namespace ApiProject5.DynamoModel
                             catch{continue;}
                         }
                         foreach (var cell in worksheet2.Cells["C:C"])
+                        {
+                            try
+                            {
+                                cell.Value = Convert.ToDecimal(cell.Value);
+                            }
+                            catch { continue; }
+                        }
+                        foreach (var cell in worksheet2.Cells["D:D"])
                         {
                             try
                             {

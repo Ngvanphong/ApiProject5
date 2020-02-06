@@ -43,16 +43,20 @@ namespace ApiProject5.DynamoModel
                 Curve curve = locationCurve.Curve;
                 IList<XYZ> listPoint = curve.Tessellate();
                 List<int> listIndex = getPointRevit(listPoint, listLine);
+                List<PointLength> listPointPara = getPointPara(curve, 0.000001);
+                List<PointLength> listPointLengthExport = getPointLengthExport(listPoint, listPointPara);
                 string[] row = new string[] { string.Empty, string.Empty, string.Empty, string.Empty };
                 for (int k = 0; k < listPoint.Count; k++)
                 {
                     if (listIndex.Exists(x => x == k))
                     {
-                        row = new string[] { listPoint[k].X.ToString(), listPoint[k].Y.ToString(), listPoint[k].Z.ToString(), k.ToString() };
+                        row = new string[] { listPointLengthExport[k].Point.X.ToString(),listPointLengthExport[k].Point.Y.ToString(),
+                            listPointLengthExport[k].Point.Z.ToString(),listPointLengthExport[k].Length.ToString(), k.ToString() };
                     }
                     else
                     {
-                        row = new string[] { listPoint[k].X.ToString(), listPoint[k].Y.ToString(), listPoint[k].Z.ToString(), string.Empty };
+                        row = new string[] { listPointLengthExport[k].Point.X.ToString(), listPointLengthExport[k].Point.Y.ToString(),
+                            listPointLengthExport[k].Point.Z.ToString(),listPointLengthExport[k].Length.ToString(), string.Empty };
                     }
                     AppPanelDynamoModel.myFormDynamoModel.dataGridViewPoint.Rows.Add(row);
                 }
@@ -80,7 +84,6 @@ namespace ApiProject5.DynamoModel
                 XYZ g2 = curegr.GetEndPoint(1);
                 XYZ u = (g1 - g2).Normalize();
                 double hmin = 100000000000;
-                XYZ Gsta = new XYZ(0, 0, 0);
                 int start = 0;
                 int startIndex = 0;
                 foreach (var p in listPoints)
@@ -91,7 +94,6 @@ namespace ApiProject5.DynamoModel
                     if (h < hmin)
                     {
                         hmin = h;
-                        Gsta = H;
                         startIndex = start;
                     }
                     start += 1;
@@ -100,5 +102,57 @@ namespace ApiProject5.DynamoModel
             }
             return listResult;
         }
+
+        public List<PointLength> getPointPara(Curve splLine, double parameterCacula)
+        {
+            int nPoint = int.Parse((1 / parameterCacula).ToString());
+            List<PointLength> listPointResult = new List<PointLength>();
+            double curveLength = splLine.Length;
+            double param1 = splLine.GetEndParameter(0);
+            double param2 = splLine.GetEndParameter(1);
+
+            for (int i = 0; i < nPoint; i++)
+            {
+                PointLength pointL = new PointLength();
+                double paramCalc = param1 + ((param2 - param1) * parameterCacula * i);
+                if (splLine.IsInside(paramCalc))
+                {
+                    double normParam = splLine.ComputeNormalizedParameter(paramCalc);
+                    pointL.Point = splLine.Evaluate(normParam, true);
+                    pointL.Length = (parameterCacula * i) * curveLength * 304.8;
+                    listPointResult.Add(pointL);
+                }
+            }
+            return listPointResult;
+        }
+
+        public List<PointLength> getPointLengthExport(IList<XYZ> listPointMain, List<PointLength> listPointPara)
+        {
+            List<PointLength> listResult = new List<PointLength>();
+            foreach (var item in listPointMain)
+            {
+                PointLength pointLengthAdd = new PointLength();
+                pointLengthAdd.Point = item;
+                double lengthMin = double.MaxValue;
+                foreach (var subitem in listPointPara)
+                {
+                    double length = item.DistanceTo(subitem.Point);
+                    if (length < lengthMin)
+                    {
+                        lengthMin = length;
+                        pointLengthAdd.Length = subitem.Length;
+                    }
+                }
+                listResult.Add(pointLengthAdd);
+            }
+            return listResult;
+        }
+    }
+
+    public class PointLength
+    {
+        public XYZ Point { set; get; }
+
+        public double Length { set; get; }
     }
 }

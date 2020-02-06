@@ -29,13 +29,14 @@
         private void InitializeComponent()
         {
             this.dataGridViewPoint = new System.Windows.Forms.DataGridView();
-            this.X = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Y = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Z = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonSelectLinepoint = new System.Windows.Forms.Button();
             this.buttonExportExcelPoint = new System.Windows.Forms.Button();
             this.btnContinueMainLine = new System.Windows.Forms.Button();
+            this.X = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Y = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Z = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPoint)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,11 +50,42 @@
             this.X,
             this.Y,
             this.Z,
+            this.Column1,
             this.Index});
-            this.dataGridViewPoint.Location = new System.Drawing.Point(203, 12);
+            this.dataGridViewPoint.Location = new System.Drawing.Point(118, 12);
             this.dataGridViewPoint.Name = "dataGridViewPoint";
-            this.dataGridViewPoint.Size = new System.Drawing.Size(443, 776);
+            this.dataGridViewPoint.Size = new System.Drawing.Size(542, 776);
             this.dataGridViewPoint.TabIndex = 0;
+            // 
+            // buttonSelectLinepoint
+            // 
+            this.buttonSelectLinepoint.Location = new System.Drawing.Point(12, 12);
+            this.buttonSelectLinepoint.Name = "buttonSelectLinepoint";
+            this.buttonSelectLinepoint.Size = new System.Drawing.Size(100, 29);
+            this.buttonSelectLinepoint.TabIndex = 1;
+            this.buttonSelectLinepoint.Text = "Select line";
+            this.buttonSelectLinepoint.UseVisualStyleBackColor = true;
+            this.buttonSelectLinepoint.Click += new System.EventHandler(this.buttonSelectLinepoint_Click);
+            // 
+            // buttonExportExcelPoint
+            // 
+            this.buttonExportExcelPoint.Location = new System.Drawing.Point(12, 80);
+            this.buttonExportExcelPoint.Name = "buttonExportExcelPoint";
+            this.buttonExportExcelPoint.Size = new System.Drawing.Size(100, 29);
+            this.buttonExportExcelPoint.TabIndex = 1;
+            this.buttonExportExcelPoint.Text = "Export excel";
+            this.buttonExportExcelPoint.UseVisualStyleBackColor = true;
+            this.buttonExportExcelPoint.Click += new System.EventHandler(this.buttonExportExcelPoint_Click);
+            // 
+            // btnContinueMainLine
+            // 
+            this.btnContinueMainLine.Location = new System.Drawing.Point(12, 46);
+            this.btnContinueMainLine.Name = "btnContinueMainLine";
+            this.btnContinueMainLine.Size = new System.Drawing.Size(100, 28);
+            this.btnContinueMainLine.TabIndex = 5;
+            this.btnContinueMainLine.Text = "Continue (MainL)";
+            this.btnContinueMainLine.UseVisualStyleBackColor = true;
+            this.btnContinueMainLine.Click += new System.EventHandler(this.btnContinueMainLine_Click);
             // 
             // X
             // 
@@ -70,46 +102,21 @@
             this.Z.HeaderText = "Z";
             this.Z.Name = "Z";
             // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Length";
+            this.Column1.Name = "Column1";
+            // 
             // Index
             // 
             this.Index.HeaderText = "Index";
             this.Index.Name = "Index";
             // 
-            // buttonSelectLinepoint
-            // 
-            this.buttonSelectLinepoint.Location = new System.Drawing.Point(12, 12);
-            this.buttonSelectLinepoint.Name = "buttonSelectLinepoint";
-            this.buttonSelectLinepoint.Size = new System.Drawing.Size(75, 29);
-            this.buttonSelectLinepoint.TabIndex = 1;
-            this.buttonSelectLinepoint.Text = "Select line";
-            this.buttonSelectLinepoint.UseVisualStyleBackColor = true;
-            this.buttonSelectLinepoint.Click += new System.EventHandler(this.buttonSelectLinepoint_Click);
-            // 
-            // buttonExportExcelPoint
-            // 
-            this.buttonExportExcelPoint.Location = new System.Drawing.Point(12, 47);
-            this.buttonExportExcelPoint.Name = "buttonExportExcelPoint";
-            this.buttonExportExcelPoint.Size = new System.Drawing.Size(75, 29);
-            this.buttonExportExcelPoint.TabIndex = 1;
-            this.buttonExportExcelPoint.Text = "Export excel";
-            this.buttonExportExcelPoint.UseVisualStyleBackColor = true;
-            this.buttonExportExcelPoint.Click += new System.EventHandler(this.buttonExportExcelPoint_Click);
-            // 
-            // btnContinueMainLine
-            // 
-            this.btnContinueMainLine.Location = new System.Drawing.Point(93, 12);
-            this.btnContinueMainLine.Name = "btnContinueMainLine";
-            this.btnContinueMainLine.Size = new System.Drawing.Size(104, 29);
-            this.btnContinueMainLine.TabIndex = 5;
-            this.btnContinueMainLine.Text = "Continue (MainL)";
-            this.btnContinueMainLine.UseVisualStyleBackColor = true;
-            this.btnContinueMainLine.Click += new System.EventHandler(this.btnContinueMainLine_Click);
-            // 
             // frmDynamoModel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(658, 800);
+            this.ClientSize = new System.Drawing.Size(672, 800);
             this.Controls.Add(this.btnContinueMainLine);
             this.Controls.Add(this.buttonExportExcelPoint);
             this.Controls.Add(this.buttonSelectLinepoint);
@@ -133,6 +140,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn X;
         private System.Windows.Forms.DataGridViewTextBoxColumn Y;
         private System.Windows.Forms.DataGridViewTextBoxColumn Z;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Index;
     }
 }
