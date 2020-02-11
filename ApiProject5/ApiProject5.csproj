@@ -96,11 +96,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Button\ChangeRotateButton.cs" />
     <Compile Include="Button\DynamoModelButton.cs" />
     <Compile Include="Button\MoveElementsButton.cs" />
     <Compile Include="Button\ParameterSetButton.cs" />
     <Compile Include="Button\RenumberElementButton.cs" />
     <Compile Include="Button\TransferMoreButton.cs" />
+    <Compile Include="ChangeRotate\ChangeRotateBinding.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="DynamoModel\AppPanelDynamoBinding.cs" />
     <Compile Include="DynamoModel\AppPanelDynamoHandler.cs" />
@@ -168,6 +170,7 @@
     <Content Include="ApiProject5.addin">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\icons8-no-rotate-left-32.png" />
     <None Include="Resources\icons8-pain-point-32.png" />
     <None Include="Resources\icons8-move-32.png" />
     <None Include="Resources\icons8-numbered-list-32.png" />

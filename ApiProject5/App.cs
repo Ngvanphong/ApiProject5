@@ -21,6 +21,8 @@ namespace ApiProject5
             moveElementsButton.MoveElements(a);
             DynamoModelButton dynamoPointButton = new DynamoModelButton();
             dynamoPointButton.DynamoPoint(a);
+            ChangeRotateButton changeRotateClass = new ChangeRotateButton();
+            changeRotateClass.ChangeRotate(a);
             return Result.Succeeded;
         }
 
