@@ -34,7 +34,7 @@ namespace ApiProject5.Button
             }
             Image img = ApiProject5.Properties.Resources.icons8_no_rotate_left_32;
             ImageSource imgSrc = Helper.Extension.GetImageSource(img);
-            PushButtonData btnData = new PushButtonData("MatchRotate", "Match \r Rotation",
+            PushButtonData btnData = new PushButtonData("MatchRotate", " Match \r Rotation",
                 Assembly.GetExecutingAssembly().Location, "ApiProject5.ChangeRotate.ChangeRotateBinding")
             {
                 ToolTip = "Rotate element follow a curve",
