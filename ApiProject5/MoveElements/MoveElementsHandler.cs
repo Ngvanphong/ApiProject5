@@ -36,8 +36,15 @@ namespace ApiProject5.MoveElements
                     listIdExcept.AddRange(listIdDependent);
                 }
             }
-            var allElements = filter.WhereElementIsNotElementType().ToElementIds();
-            allElements = allElements.Except(listIdExcept).ToList();
+
+            var allElement3D = new List<ElementId>();
+            Autodesk.Revit.DB.View viewCurrent = doc.ActiveView;
+            if (viewCurrent.ViewType != ViewType.ThreeD)
+            {
+                System.Windows.Forms.MessageBox.Show("You must go to 3D View");
+                return;
+            }
+            
             var allElementsPin = filter.WhereElementIsNotElementType().ToElements().Where(k => k.Pinned == true && k.CanBeLocked());
             List<ElementId> listPinActiion = new List<ElementId>();
             foreach (var pinEle in allElementsPin)
@@ -60,6 +67,24 @@ namespace ApiProject5.MoveElements
                     }
                 }
             }
+
+            var all3 = new FilteredElementCollector(doc, viewCurrent.Id).WhereElementIsNotElementType().ToElementIds().ToList();
+            var sectionBox = new FilteredElementCollector(doc, viewCurrent.Id).WhereElementIsNotElementType()
+                            .OfCategory(BuiltInCategory.OST_SectionBox).ToElementIds().ToList();
+            allElement3D = all3.Except(sectionBox).ToList();
+            Group group = null;
+            using (Transaction t = new Transaction(doc, "groupElement"))
+            {
+                t.Start();
+                group = doc.Create.NewGroup(allElement3D);
+                t.Commit();
+            }
+
+            var allElements = filter.WhereElementIsNotElementType().ToElementIds();
+            allElements = allElements.Except(listIdExcept).Except(allElement3D).ToList();
+            allElements.Add(group.Id);
+
+
             if (x != 0 || y != 0 || z != 0)
             {
                 using (Transaction t = new Transaction(doc, "MoveElementsRevit"))
@@ -87,6 +112,14 @@ namespace ApiProject5.MoveElements
                     catch (Exception e) { t2.RollBack(); }
                 }
             }
+
+            using (Transaction t7 = new Transaction(doc, "UpgroupElement"))
+            {
+                t7.Start();
+                group.UngroupMembers();
+                t7.Commit();
+            }
+
             foreach (var pinEleId in listPinActiion)
             {
                 using (Transaction t4 = new Transaction(doc, "PinProject2"))
