@@ -97,7 +97,7 @@ namespace ApiProject5.ChangeRotate
                                 XYZ middle = (p + q) / 2;
                                 double minDistance = double.MaxValue;
                                 double distance = pointM.DistanceTo(middle);
-                                if (minDistance>distance)
+                                if (minDistance > distance)
                                 {
                                     minDistance = distance;
                                     vectorRo = (q - p).Normalize();
