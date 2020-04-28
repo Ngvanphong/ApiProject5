@@ -167,3 +167,4 @@ C:\Users\NGUYENVANPHONG\Documents\ApiProject5-lesson4\ApiProject5\obj\2019\ApiPr
 C:\Users\NGUYENVANPHONG\Documents\ApiProject5-lesson4\ApiProject5\obj\2019\ApiProject5.csproj.CopyComplete
 C:\Users\NGUYENVANPHONG\Documents\ApiProject5-lesson4\ApiProject5\obj\2019\ApiProject5.dll
 C:\Users\NGUYENVANPHONG\Documents\ApiProject5-lesson4\ApiProject5\obj\2019\ApiProject5.pdb
+C:\Users\NGUYENVANPHONG\Documents\ApiProject5-lesson4\ApiProject5\obj\2019\ApiProject5.csprojAssemblyReference.cache
