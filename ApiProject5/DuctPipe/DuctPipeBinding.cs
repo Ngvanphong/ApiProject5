@@ -327,13 +327,7 @@ namespace ApiProject5.DuctPipe
             return duct;
         }
 
-        public Pipe CreateNewPipeCus(
-          Document doc,
-          XYZ p1,
-          XYZ p2,
-          ElementId pipeSystem,
-          ElementId levelId,
-          PipeType pipeType = null)
+        public Pipe CreateNewPipeCus(Document doc, XYZ p1, XYZ p2, ElementId pipeSystem,ElementId levelId, PipeType pipeType = null)
         {
             Pipe pipe = (Pipe)null;
             using (Transaction t15 = new Transaction(doc, "CreateDuctPipe3"))
