@@ -20,7 +20,7 @@ namespace ApiProject5.DuctPipe
         {
             UIDocument activeUiDocument = commandData.Application.ActiveUIDocument;
             Document document = activeUiDocument.Document;
-            double angle = 45.0;
+            double angle = 45;
             try
             {
                 angle = double.Parse(StatisAngleViewer.StatisViewerShow);
@@ -28,10 +28,10 @@ namespace ApiProject5.DuctPipe
             catch
             {
             }
-            Element element1;
+            Element element1=null;
             try
             {
-                element1 = document.GetElement(activeUiDocument.Selection.GetElementIds().First<ElementId>());
+                element1 = document.GetElement(activeUiDocument.Selection.GetElementIds().First());
             }
             catch
             {
@@ -42,11 +42,11 @@ namespace ApiProject5.DuctPipe
             LocationCurve location1 = element1.Location as LocationCurve;
             XYZ endPoint1 = location1.Curve.GetEndPoint(0);
             XYZ endPoint2 = location1.Curve.GetEndPoint(1);
-            Element element2;
+            Element element2=null;
             LocationCurve location2=null;
             try
             {
-                Reference reference = activeUiDocument.Selection.PickObject(ObjectType.Element, (ISelectionFilter)new SelectionFilterCategory(category));
+                Reference reference = activeUiDocument.Selection.PickObject(ObjectType.Element, new SelectionFilterCategory(category));
                 element2 = document.GetElement(reference);
                 location2 = document.GetElement(reference).Location as LocationCurve;
             }
@@ -56,32 +56,32 @@ namespace ApiProject5.DuctPipe
             }
             XYZ endPoint3 = location2.Curve.GetEndPoint(0);
             XYZ endPoint4 = location2.Curve.GetEndPoint(1);
-            XYZ xyz1 = (endPoint2 - endPoint1).Normalize();
-            XYZ source = (endPoint4 - endPoint3).Normalize();
+            XYZ v1 = (endPoint2 - endPoint1).Normalize();
+            XYZ v2 = (endPoint4 - endPoint3).Normalize();
             double num3 = endPoint2.X - endPoint1.X;
             double num4 = endPoint2.Y - endPoint1.Y;
             double num5 = endPoint4.X - endPoint3.X;
             double num6 = endPoint4.Y - endPoint3.Y;
-            XYZ xyz2;
-            XYZ xyz3;
-            if (xyz1.IsAlmostEqualTo(source) || xyz1.IsAlmostEqualTo(-source))
+            XYZ M;
+            XYZ G;
+            if (v1.IsAlmostEqualTo(v2) || v1.IsAlmostEqualTo(-v2))
             {
-                double num2 = Math.Sqrt((endPoint1.X - endPoint2.X) * (endPoint1.X - endPoint2.X) + (endPoint1.Y - endPoint2.Y) * (endPoint1.Y - endPoint2.Y));
-                double num7 = Math.Sqrt((endPoint1.X - endPoint3.X) * (endPoint1.X - endPoint3.X) + (endPoint1.Y - endPoint3.Y) * (endPoint1.Y - endPoint3.Y));
-                double num8 = Math.Sqrt((endPoint2.X - endPoint3.X) * (endPoint2.X - endPoint3.X) + (endPoint2.Y - endPoint3.Y) * (endPoint2.Y - endPoint3.Y));
-                xyz2 = Math.Abs(num7 - num2 - num8) >= 0.0001 ? endPoint1 : endPoint2;
-                double num9 = Math.Sqrt((endPoint2.X - endPoint4.X) * (endPoint2.X - endPoint4.X) + (endPoint2.Y - endPoint4.Y) * (endPoint2.Y - endPoint4.Y));
-                double num10 = Math.Sqrt((endPoint3.X - endPoint4.X) * (endPoint3.X - endPoint4.X) + (endPoint3.Y - endPoint4.Y) * (endPoint3.Y - endPoint4.Y));
-                xyz3 = Math.Abs(num9 - num8 - num10) >= 0.0001 ? endPoint4 : endPoint3;
+                double AB = Math.Sqrt((endPoint1.X - endPoint2.X) * (endPoint1.X - endPoint2.X) + (endPoint1.Y - endPoint2.Y) * (endPoint1.Y - endPoint2.Y));
+                double AC = Math.Sqrt((endPoint1.X - endPoint3.X) * (endPoint1.X - endPoint3.X) + (endPoint1.Y - endPoint3.Y) * (endPoint1.Y - endPoint3.Y));
+                double CB = Math.Sqrt((endPoint2.X - endPoint3.X) * (endPoint2.X - endPoint3.X) + (endPoint2.Y - endPoint3.Y) * (endPoint2.Y - endPoint3.Y));
+                M = Math.Abs(AC - AB - CB) >= 0.0001 ? endPoint1 : endPoint2;
+                double BD = Math.Sqrt((endPoint2.X - endPoint4.X) * (endPoint2.X - endPoint4.X) + (endPoint2.Y - endPoint4.Y) * (endPoint2.Y - endPoint4.Y));
+                double CD = Math.Sqrt((endPoint3.X - endPoint4.X) * (endPoint3.X - endPoint4.X) + (endPoint3.Y - endPoint4.Y) * (endPoint3.Y - endPoint4.Y));
+                G = Math.Abs(BD - CB - CD) >= 0.0001 ? endPoint4 : endPoint3;
             }
             else
             {
                 double num2 = (num3 * endPoint3.Y + num4 * endPoint1.X - endPoint1.Y * num3 - endPoint3.X * num4) / (num4 * num5 - num3 * num6);
-                xyz3 = new XYZ(endPoint3.X + num5 * num2, endPoint3.Y + num6 * num2, endPoint3.Z);
+                G = new XYZ(endPoint3.X + num5 * num2, endPoint3.Y + num6 * num2, endPoint3.Z);
                 double num7 = Math.Sqrt((endPoint1.X - endPoint2.X) * (endPoint1.X - endPoint2.X) + (endPoint1.Y - endPoint2.Y) * (endPoint1.Y - endPoint2.Y));
-                double num8 = Math.Sqrt((endPoint1.X - xyz3.X) * (endPoint1.X - xyz3.X) + (endPoint1.Y - xyz3.Y) * (endPoint1.Y - xyz3.Y));
-                double num9 = Math.Sqrt((endPoint2.X - xyz3.X) * (endPoint2.X - xyz3.X) + (endPoint2.Y - xyz3.Y) * (endPoint2.Y - xyz3.Y));
-                xyz2 = Math.Abs(num8 - num7 - num9) >= 0.0001 ? endPoint1 : endPoint2;
+                double num8 = Math.Sqrt((endPoint1.X - G.X) * (endPoint1.X - G.X) + (endPoint1.Y - G.Y) * (endPoint1.Y - G.Y));
+                double num9 = Math.Sqrt((endPoint2.X - G.X) * (endPoint2.X - G.X) + (endPoint2.Y - G.Y) * (endPoint2.Y - G.Y));
+                M = Math.Abs(num8 - num7 - num9) >= 0.0001 ? endPoint1 : endPoint2;
             }
             double x;
             double y;
@@ -89,15 +89,16 @@ namespace ApiProject5.DuctPipe
             {
                 double num2 = Math.Abs(endPoint1.Z - endPoint3.Z) / Math.Tan(angle * Math.PI / 180.0);
                 double num7 = num3 * num3 + num4 * num4;
-                double num8 = 2.0 * num3 * (endPoint1.X - xyz2.X) + 2.0 * num4 * (endPoint1.Y - xyz2.Y);
-                double num9 = (endPoint1.X - xyz2.X) * (endPoint1.X - xyz2.X) + (endPoint1.Y - xyz2.Y) * (endPoint1.Y - xyz2.Y) - num2 * num2;
+                double num8 = 2.0 * num3 * (endPoint1.X - M.X) + 2.0 * num4 * (endPoint1.Y - M.Y);
+                double num9 = (endPoint1.X - M.X) * (endPoint1.X - M.X) + (endPoint1.Y - M.Y) * (endPoint1.Y - M.Y) - num2 * num2;
                 double num10 = (-num8 + Math.Sqrt(num8 * num8 - 4.0 * num7 * num9)) / (2.0 * num7);
                 double num11 = (-num8 - Math.Sqrt(num8 * num8 - 4.0 * num7 * num9)) / (2.0 * num7);
                 double num12 = endPoint1.X + num3 * num10;
                 double num13 = endPoint1.Y + num4 * num10;
                 double num14 = endPoint1.X + num3 * num11;
                 double num15 = endPoint1.Y + num4 * num11;
-                if (Math.Abs(Math.Sqrt((endPoint2.X - num12) * (endPoint2.X - num12) + (endPoint2.Y - num13) * (endPoint2.Y - num13)) - Math.Sqrt((xyz2.X - endPoint2.X) * (xyz2.X - endPoint2.X) + (xyz2.Y - endPoint2.Y) * (xyz2.Y - endPoint2.Y)) - Math.Sqrt((xyz2.X - num12) * (xyz2.X - num12) + (xyz2.Y - num13) * (xyz2.Y - num13))) < 0.0001)
+                if (Math.Abs(Math.Sqrt((endPoint2.X - num12) * (endPoint2.X - num12) + (endPoint2.Y - num13) * (endPoint2.Y - num13))
+                    - Math.Sqrt((M.X - endPoint2.X) * (M.X - endPoint2.X) + (M.Y - endPoint2.Y) * (M.Y - endPoint2.Y)) - Math.Sqrt((M.X - num12) * (M.X - num12) + (M.Y - num13) * (M.Y - num13))) < 0.0001)
                 {
                     x = num12;
                     y = num13;
@@ -110,16 +111,15 @@ namespace ApiProject5.DuctPipe
             }
             else
             {
-                x = xyz2.X;
-                y = xyz2.Y;
+                x = M.X;
+                y = M.Y;
             }
-            XYZ xyz4 = new XYZ(x, y, endPoint1.Z);
-            XYZ xyz5 = new XYZ(x, y, endPoint3.Z);
-            ElementId levelId = element1.GetParameters("Reference Level").First<Parameter>().AsElementId();
+            XYZ N = new XYZ(x, y, endPoint3.Z);
+            ElementId levelId = element1.get_Parameter(BuiltInParameter.RBS_START_LEVEL_PARAM).AsElementId();
             double width = 0.0;
             double height = 0.0;
             double diameter1 = 0.0;
-            if (category.Id.IntegerValue == int.Parse(BuiltInCategory.OST_DuctSystem.ToString()))
+            if (category.Id == document.Settings.Categories.get_Item(BuiltInCategory.OST_DuctCurves).Id)
             {
                 Duct duct2_1 = element2 as Duct;
                 Duct duct = element1 as Duct;
@@ -134,56 +134,56 @@ namespace ApiProject5.DuctPipe
                 }
                 DuctType ductType = duct.DuctType;
                 ElementId ductSystem = duct.get_Parameter(BuiltInParameter.RBS_DUCT_SYSTEM_TYPE_PARAM).AsElementId();
-                Duct newDuctCus1 = this.CreateNewDuctCus(document, xyz2, xyz5, ductSystem, levelId, ductType);
+                Duct newDuctCus1 = this.CreateNewDuctCus(document, M, N, ductSystem, levelId, ductType);
                 this.ChangeSizeDuct(document, diameter1, width, height, newDuctCus1);
                 Duct duct2_2 = duct;
                 if (newDuctCus1 != null)
-                    this.CreateConnectEbow(document, newDuctCus1, xyz2, duct2_2, xyz2);
+                    this.CreateConnectEbow(document, newDuctCus1, M, duct2_2, M);
                 try
                 {
-                    if (xyz1.IsAlmostEqualTo(source) || xyz1.IsAlmostEqualTo(-source))
+                    if (v1.IsAlmostEqualTo(v2) || v1.IsAlmostEqualTo(-v2))
                     {
-                        this.CreateConnectEbow(document, newDuctCus1, xyz5, duct2_1, xyz3);
+                        this.CreateConnectEbow(document, newDuctCus1, N, duct2_1, G);
                     }
                     else
                     {
                         try
                         {
-                            Duct newDuctCus2 = CreateNewDuctCus(document, xyz5, xyz3, ductSystem, levelId, ductType);
+                            Duct newDuctCus2 = CreateNewDuctCus(document, N, G, ductSystem, levelId, ductType);
                             ChangeSizeDuct(document, diameter1, width, height, newDuctCus2);
-                            if (newDuctCus2 != null && !xyz1.IsAlmostEqualTo(source) && !xyz1.IsAlmostEqualTo(-source))
+                            if (newDuctCus2 != null && !v1.IsAlmostEqualTo(v2) && !v1.IsAlmostEqualTo(-v2))
                             {
-                                CreateConnectEbow(document, newDuctCus2, xyz5, newDuctCus1, xyz5);
-                                using (TransactionGroup transactionGroup = new TransactionGroup(document, "groupConnectDuctTee"))
+                                CreateConnectEbow(document, newDuctCus2, N, newDuctCus1, N);
+                                using (TransactionGroup tg8 = new TransactionGroup(document, "groupConnectDuctTee"))
                                 {
-                                    int num2 = (int)transactionGroup.Start();
+                                    tg8.Start();
                                     try
                                     {
-                                        CreateConectTree(document, newDuctCus2, xyz3, duct2_1);
-                                        int num7 = (int)transactionGroup.Commit();
+                                        CreateConectTree(document, newDuctCus2, G, duct2_1);
+                                        tg8.Commit();
                                     }
                                     catch
                                     {
-                                        int num7 = (int)transactionGroup.RollBack();
+                                        tg8.RollBack();
                                     }
                                 }
                             }
                         }
                         catch
                         {
-                            if (!xyz1.IsAlmostEqualTo(source) && !xyz1.IsAlmostEqualTo(-source))
+                            if (!v1.IsAlmostEqualTo(v2) && !v1.IsAlmostEqualTo(-v2))
                             {
-                                using (TransactionGroup transactionGroup = new TransactionGroup(document, "groupConnectDuctTee90"))
+                                using (TransactionGroup tg = new TransactionGroup(document, "groupConnectDuctTee90"))
                                 {
-                                    int num2 = (int)transactionGroup.Start();
+                                    tg.Start();
                                     try
                                     {
-                                        this.CreateConectTree(document, newDuctCus1, xyz3, duct2_1);
-                                        int num7 = (int)transactionGroup.Commit();
+                                        this.CreateConectTree(document, newDuctCus1, G, duct2_1);
+                                        tg.Commit();
                                     }
                                     catch
                                     {
-                                        int num7 = (int)transactionGroup.RollBack();
+                                        tg.RollBack();
                                     }
                                 }
                             }
@@ -201,56 +201,56 @@ namespace ApiProject5.DuctPipe
                 double diameter2 = pipe.Diameter;
                 PipeType pipeType = pipe.PipeType;
                 ElementId pipeSystem = pipe.get_Parameter(BuiltInParameter.RBS_PIPING_SYSTEM_TYPE_PARAM).AsElementId();
-                Pipe newPipeCus1 = CreateNewPipeCus(document, xyz2, xyz5, pipeSystem, levelId, pipeType);
+                Pipe newPipeCus1 = CreateNewPipeCus(document, M, N, pipeSystem, levelId, pipeType);
                 ChangeSizePipe(document, diameter2, width, height, newPipeCus1);
                 Pipe pipe2_2 = pipe;
                 if (newPipeCus1 != null)
-                    CreateConnectEbowPipe(document, newPipeCus1, xyz2, pipe2_2, xyz2);
+                    CreateConnectEbowPipe(document, newPipeCus1, M, pipe2_2, M);
                 try
                 {
-                    if (xyz1.IsAlmostEqualTo(source) || xyz1.IsAlmostEqualTo(-source))
+                    if (v1.IsAlmostEqualTo(v2) || v1.IsAlmostEqualTo(-v2))
                     {
-                        CreateConnectEbowPipe(document, newPipeCus1, xyz5, pipe2_1, xyz3);
+                        CreateConnectEbowPipe(document, newPipeCus1, N, pipe2_1, G);
                     }
                     else
                     {
                         try
                         {
-                            Pipe newPipeCus2 = this.CreateNewPipeCus(document, xyz5, xyz3, pipeSystem, levelId, pipeType);
+                            Pipe newPipeCus2 = this.CreateNewPipeCus(document, N, G, pipeSystem, levelId, pipeType);
                             this.ChangeSizePipe(document, diameter2, width, height, newPipeCus2);
-                            if (newPipeCus2 != null && !xyz1.IsAlmostEqualTo(source) && !xyz1.IsAlmostEqualTo(-source))
+                            if (newPipeCus2 != null && !v1.IsAlmostEqualTo(v2) && !v1.IsAlmostEqualTo(-v2))
                             {
-                                this.CreateConnectEbowPipe(document, newPipeCus2, xyz5, newPipeCus1, xyz5);
-                                using (TransactionGroup transactionGroup = new TransactionGroup(document, "groupConnectPipeTee"))
+                                this.CreateConnectEbowPipe(document, newPipeCus2, N, newPipeCus1, N);
+                                using (TransactionGroup tg3 = new TransactionGroup(document, "groupConnectPipeTee"))
                                 {
-                                    int num2 = (int)transactionGroup.Start();
+                                    tg3.Start();
                                     try
                                     {
-                                        CreateConectTreePipe(document, newPipeCus2, xyz3, pipe2_1);
-                                        int num7 = (int)transactionGroup.Commit();
+                                        CreateConectTreePipe(document, newPipeCus2, G, pipe2_1);
+                                        tg3.Commit();
                                     }
                                     catch
                                     {
-                                        int num7 = (int)transactionGroup.RollBack();
+                                        tg3.RollBack();
                                     }
                                 }
                             }
                         }
                         catch
                         {
-                            if (!xyz1.IsAlmostEqualTo(source) && !xyz1.IsAlmostEqualTo(-source))
+                            if (!v1.IsAlmostEqualTo(v2) && !v1.IsAlmostEqualTo(-v2))
                             {
-                                using (TransactionGroup transactionGroup = new TransactionGroup(document, "groupConnectPipeTee90"))
+                                using (TransactionGroup tg2 = new TransactionGroup(document, "groupConnectPipeTee90"))
                                 {
-                                    int num2 = (int)transactionGroup.Start();
+                                    tg2.Start();
                                     try
                                     {
-                                        this.CreateConectTreePipe(document, newPipeCus1, xyz3, pipe2_1);
-                                        int num7 = (int)transactionGroup.Commit();
+                                        this.CreateConectTreePipe(document, newPipeCus1, G, pipe2_1);
+                                        tg2.Commit();
                                     }
                                     catch
                                     {
-                                        int num7 = (int)transactionGroup.RollBack();
+                                        tg2.RollBack();
                                     }
                                 }
                             }
