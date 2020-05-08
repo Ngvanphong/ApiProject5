@@ -309,13 +309,7 @@ namespace ApiProject5.DuctPipe
             return Result.Succeeded;
         }
 
-        public Duct CreateNewDuctCus(
-          Document doc,
-          XYZ p1,
-          XYZ p2,
-          ElementId ductSystem,
-          ElementId levelId,
-          DuctType ductType = null)
+        public Duct CreateNewDuctCus(Document doc,XYZ p1,XYZ p2, ElementId ductSystem, ElementId levelId,DuctType ductType = null)
         {
             Duct duct = (Duct)null;
             using (Transaction t5 = new Transaction(doc, "CreateDuctPipe2"))
@@ -487,12 +481,7 @@ namespace ApiProject5.DuctPipe
             }
         }
 
-        public void ChangeSizeDuct(
-          Document doc,
-          double diameter,
-          double width,
-          double height,
-          Duct element)
+        public void ChangeSizeDuct(Document doc,double diameter,double width,double height,Duct element)
         {
             using (Transaction t11 = new Transaction(doc, "SetSizeDuct"))
             {
