@@ -159,7 +159,18 @@ namespace ApiProject5.DuctPipe
                                     tg8.Start();
                                     try
                                     {
-                                        CreateConectTree(document, newDuctCus2, G, duct2_1);
+                                        double CG = G.DistanceTo(endPoint3);
+                                        double DG = endPoint4.DistanceTo(G);
+                                        double CD = endPoint3.DistanceTo(endPoint4);
+                                        if (Math.Abs(DG+CG-CD)>0.0001||CG<0.0001||DG<0.0001)
+                                        {
+                                            XYZ pointCon = GetPointConnect(endPoint3, endPoint4, G);
+                                            CreateConnectEbow(document, newDuctCus2, G, duct2_1, pointCon);
+                                        }
+                                        else
+                                        {
+                                            CreateConectTree(document, newDuctCus2, G, duct2_1);
+                                        }
                                         tg8.Commit();
                                     }
                                     catch
@@ -178,7 +189,18 @@ namespace ApiProject5.DuctPipe
                                     tg.Start();
                                     try
                                     {
-                                        this.CreateConectTree(document, newDuctCus1, G, duct2_1);
+                                        double CG = G.DistanceTo(endPoint3);
+                                        double DG = endPoint4.DistanceTo(G);
+                                        double CD = endPoint3.DistanceTo(endPoint4);
+                                        if (Math.Abs(DG + CG - CD) > 0.0001 || CG < 0.0001 || DG < 0.0001)
+                                        {
+                                            XYZ pointCon = GetPointConnect(endPoint3, endPoint4, G);
+                                            CreateConnectEbow(document, newDuctCus1, G, duct2_1, pointCon);
+                                        }
+                                        else
+                                        {
+                                            this.CreateConectTree(document, newDuctCus1, G, duct2_1);
+                                        } 
                                         tg.Commit();
                                     }
                                     catch
@@ -226,7 +248,18 @@ namespace ApiProject5.DuctPipe
                                     tg3.Start();
                                     try
                                     {
-                                        CreateConectTreePipe(document, newPipeCus2, G, pipe2_1);
+                                        double CG = G.DistanceTo(endPoint3);
+                                        double DG = endPoint4.DistanceTo(G);
+                                        double CD = endPoint3.DistanceTo(endPoint4);
+                                        if (Math.Abs(DG + CG - CD) > 0.0001 || CG < 0.0001 || DG < 0.0001)
+                                        {
+                                            XYZ pointCon = GetPointConnect(endPoint3, endPoint4, G);
+                                            CreateConnectEbowPipe(document, newPipeCus2, G, pipe2_1, pointCon);
+                                        }
+                                        else
+                                        {
+                                            CreateConectTreePipe(document, newPipeCus2, G, pipe2_1);
+                                        }
                                         tg3.Commit();
                                     }
                                     catch
@@ -245,7 +278,19 @@ namespace ApiProject5.DuctPipe
                                     tg2.Start();
                                     try
                                     {
-                                        this.CreateConectTreePipe(document, newPipeCus1, G, pipe2_1);
+                                        double CG = G.DistanceTo(endPoint3);
+                                        double DG = endPoint4.DistanceTo(G);
+                                        double CD = endPoint3.DistanceTo(endPoint4);
+                                        if (Math.Abs(DG + CG - CD) > 0.0001 || CG < 0.0001 || DG < 0.0001)
+                                        {
+                                            XYZ pointCon = GetPointConnect(endPoint3, endPoint4, G);
+                                            CreateConnectEbowPipe(document, newPipeCus1, G, pipe2_1, pointCon);
+                                        }
+                                        else
+                                        {
+                                            this.CreateConectTreePipe(document, newPipeCus1, G, pipe2_1);
+                                        }
+                                        
                                         tg2.Commit();
                                     }
                                     catch
@@ -318,11 +363,11 @@ namespace ApiProject5.DuctPipe
                 if (connector2.Origin.IsAlmostEqualTo(E))
                     break;
             }
-            using (Transaction transaction = new Transaction(doc, "Connector2"))
+            using (Transaction t32 = new Transaction(doc, "Connector2"))
             {
-                int num1 = (int)transaction.Start();
+                t32.Start();
                 doc.Create.NewElbowFitting(connector1, connector2);
-                int num2 = (int)transaction.Commit();
+                t32.Commit();
             }
         }
 
@@ -335,12 +380,12 @@ namespace ApiProject5.DuctPipe
             double num1 = Math.Sqrt((endPoint1.X - G.X) * (endPoint1.X - G.X) + (endPoint1.Y - G.Y) * (endPoint1.Y - G.Y));
             XYZ xyz = endPoint2.Subtract(endPoint1).Normalize();
             XYZ ptBreak = endPoint1.Add(xyz.Multiply(num1));
-            using (Transaction transaction = new Transaction(doc, "DevieDuct"))
+            using (Transaction t31 = new Transaction(doc, "DevieDuct"))
             {
-                int num2 = (int)transaction.Start();
+                t31.Start();
                 ElementId id = MechanicalUtils.BreakCurve(doc, duct2.Id, ptBreak);
                 duct = doc.GetElement(id) as Duct;
-                int num3 = (int)transaction.Commit();
+                t31.Commit();
             }
             Connector connector3 = (Connector)null;
             ConnectorSetIterator connectorSetIterator1 = duct1.ConnectorManager.Connectors.ForwardIterator();
@@ -471,12 +516,7 @@ namespace ApiProject5.DuctPipe
             }
         }
 
-        public void ChangeSizePipe(
-          Document doc,
-          double diameter,
-          double width,
-          double height,
-          Pipe element)
+        public void ChangeSizePipe( Document doc,double diameter, double width, double height,Pipe element)
         {
             using (Transaction t12 = new Transaction(doc, "SetSizeDuct"))
             {
@@ -484,6 +524,28 @@ namespace ApiProject5.DuctPipe
                 element.get_Parameter(BuiltInParameter.RBS_PIPE_DIAMETER_PARAM).Set(diameter);
                 t12.Commit();
             }
+        }
+
+        public XYZ GetPointConnect(XYZ C, XYZ D, XYZ G)
+        {
+            XYZ result=null;
+            double CG = C.DistanceTo(G);
+            double DG = D.DistanceTo(G);
+            double CD = C.DistanceTo(D);
+            if (CG < 0.0001)
+            {
+                result = C;
+            }else if (DG < 0.0001)
+            {
+                result = D;
+            }else if (Math.Abs(CG - DG - CD) < 0.0001&&CG>=CD)
+            {
+                result = D;
+            }else if (Math.Abs(DG - CD - CG) < 0.0001&&DG>=CD)
+            {
+                result = C;
+            }
+            return result;
         }
     }
 }
