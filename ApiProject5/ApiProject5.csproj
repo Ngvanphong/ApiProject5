@@ -98,6 +98,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Button\ChangeRotateButton.cs" />
+    <Compile Include="Button\CompareElevationDuctButton.cs" />
     <Compile Include="Button\DuctPipeButton.cs" />
     <Compile Include="Button\DynamoModelButton.cs" />
     <Compile Include="Button\MoveElementsButton.cs" />
@@ -106,6 +107,8 @@
     <Compile Include="Button\TransferMoreButton.cs" />
     <Compile Include="ChangeRotate\ChangeRotateBinding.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="CompareElevation\AngleAndElevationDuct.cs" />
+    <Compile Include="CompareElevation\CompareElevationDuctBinding.cs" />
     <Compile Include="DuctPipe\DuctPipeBinding.cs" />
     <Compile Include="DuctPipe\StatisAngleViewer.cs" />
     <Compile Include="DynamoModel\AppPanelDynamoBinding.cs" />
@@ -174,6 +177,7 @@
     <Content Include="ApiProject5.addin">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\icons8-sun-elevation-32.png" />
     <None Include="Resources\icons8-water-pipe-32.png" />
     <None Include="Resources\icons8-no-rotate-left-32.png" />
     <None Include="Resources\icons8-pain-point-32.png" />
@@ -206,6 +210,7 @@
       <DependentUpon>frmTransferMore.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if  "$(ConfigurationName)" =="2020" (

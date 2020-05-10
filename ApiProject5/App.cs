@@ -15,6 +15,7 @@ namespace ApiProject5
       new DynamoModelButton().DynamoPoint(a);
       new ChangeRotateButton().ChangeRotate(a);
       new DuctPipeButton().DuctPipeCreate(a);
+      new CompareElevationDuctButton().CompareElevationDuct(a);
       return Result.Succeeded;
     }
 
