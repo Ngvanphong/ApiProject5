@@ -54,7 +54,7 @@ namespace ApiProject5.MoveElements
                     t3.Start();
                     try
                     {
-                        if (!Constants.CategoryName.Exists(n => n == pinEle.Category.Name))
+                        if (!Constants.CategoryBuilt.Exists(n => n == (BuiltInCategory)pinEle.Category.Id.IntegerValue))
                         {
                             pinEle.Pinned = false;
                             listPinActiion.Add(pinEle.Id);

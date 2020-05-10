@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
+
 namespace ApiProject5.RenumberElement
 {
     public class ParameterElementHandler : IExternalEventHandler
@@ -19,9 +21,10 @@ namespace ApiProject5.RenumberElement
             AppPenalRenumberElement.myFormRenumberElement.comboBoxParameterRenumerElement.ValueMember = "Value";
             if (cateChoice == Constants.Room)
             {
-               
+                Room elRoom = new FilteredElementCollector(doc).WherePasses(new ElementCategoryFilter(BuiltInCategory.OST_Rooms)).ToElements().First() as Room;
+                string nameParaRoom = elRoom.get_Parameter(BuiltInParameter.ROOM_NUMBER).Definition.Name;
                 AppPenalRenumberElement.myFormRenumberElement.comboBoxParameterRenumerElement.Items.Clear();
-                AppPenalRenumberElement.myFormRenumberElement.comboBoxParameterRenumerElement.Items.Add(new { Text = "Number", Value = "Number" });
+                AppPenalRenumberElement.myFormRenumberElement.comboBoxParameterRenumerElement.Items.Add(new { Text = nameParaRoom, Value = nameParaRoom });
                 AppPenalRenumberElement.myFormRenumberElement.comboBoxParameterRenumerElement.SelectedIndex = 0;
             }
             else 
