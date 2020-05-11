@@ -24,18 +24,22 @@ namespace ApiProject5.CompareElevation
                 TaskDialog.Show("Error", "You must choose a duct or pipe");
                 return Result.Succeeded;
             }
-            XYZ M = null;
-            XYZ N = null;
+            XYZ M1 = null;
+            XYZ N1 = null;
             try
             {
-                M = uiDoc.Selection.PickPoint();
-                N = uiDoc.Selection.PickPoint();
+                M1 = uiDoc.Selection.PickPoint();
+                N1 = uiDoc.Selection.PickPoint();
             }
             catch
             {
                 TaskDialog.Show("Error", "You must choose points");
                 return Result.Succeeded;
             }
+            LocationCurve locationMain = elementMain.Location as LocationCurve;
+            XYZ pointMain1 = locationMain.Curve.GetEndPoint(0);
+            XYZ M = new XYZ(M1.X,M1.Y,pointMain1.Z);
+            XYZ N = new XYZ(N1.X, N1.Y, pointMain1.Z);
 
             double angle = 45;
             double elevationNew = 500;
@@ -49,7 +53,8 @@ namespace ApiProject5.CompareElevation
                 elevationNew = double.Parse(AngleAndElevationDuct.ElevationDuct);
             }
             catch { }
-
+            ElementId levelId = elementMain.get_Parameter(BuiltInParameter.RBS_START_LEVEL_PARAM).AsElementId();
+            
             if (elementMain.Category.Id == doc.Settings.Categories.get_Item(BuiltInCategory.OST_DuctCurves).Id)
             {
                 Duct duct1 = elementMain as Duct;
@@ -60,7 +65,6 @@ namespace ApiProject5.CompareElevation
                 Duct ductAfterDevide2 = DevideDuctPoint(doc, N, ductDevide);
                 Duct ductN = null;
                 Duct ductChange = FindDuctChange(doc, ductDevide, ductAfterDevide2, M, N, out ductN);
-
                 using (Transaction t3 = new Transaction(doc, "ChangeElevationDuct"))
                 {
                     t3.Start();
@@ -70,67 +74,14 @@ namespace ApiProject5.CompareElevation
                     paraEle.Set(offset);
                     t3.Commit();
                 }
-                LocationCurve location1 = ductChange.Location as LocationCurve;
-                XYZ endPoint1 = location1.Curve.GetEndPoint(0);
-                XYZ endPoint2 = location1.Curve.GetEndPoint(1);
-
-                LocationCurve location2 = ductM.Location as LocationCurve;
-                XYZ endPoint3 = location2.Curve.GetEndPoint(0);
-                XYZ endPoint4 = location2.Curve.GetEndPoint(1);
-                
-                double num3 = endPoint2.X - endPoint1.X;
-                double num4 = endPoint2.Y - endPoint1.Y;
-                double num5 = endPoint4.X - endPoint3.X;
-                double num6 = endPoint4.Y - endPoint3.Y;
-
-                XYZ G;
-                double AB = Math.Sqrt((endPoint1.X - endPoint2.X) * (endPoint1.X - endPoint2.X) + (endPoint1.Y - endPoint2.Y) * (endPoint1.Y - endPoint2.Y));
-                double AC = Math.Sqrt((endPoint1.X - endPoint3.X) * (endPoint1.X - endPoint3.X) + (endPoint1.Y - endPoint3.Y) * (endPoint1.Y - endPoint3.Y));
-                double CB = Math.Sqrt((endPoint2.X - endPoint3.X) * (endPoint2.X - endPoint3.X) + (endPoint2.Y - endPoint3.Y) * (endPoint2.Y - endPoint3.Y));
-                M = Math.Abs(AC - AB - CB) >= 0.0001 ? endPoint1 : endPoint2;
-                double BD = Math.Sqrt((endPoint2.X - endPoint4.X) * (endPoint2.X - endPoint4.X) + (endPoint2.Y - endPoint4.Y) * (endPoint2.Y - endPoint4.Y));
-                double CD = Math.Sqrt((endPoint3.X - endPoint4.X) * (endPoint3.X - endPoint4.X) + (endPoint3.Y - endPoint4.Y) * (endPoint3.Y - endPoint4.Y));
-                G = Math.Abs(BD - CB - CD) >= 0.0001 ? endPoint4 : endPoint3;
-                double x;
-                double y;
-                if (angle != 90.0)
-                {
-                    double num2 = Math.Abs(endPoint1.Z - endPoint3.Z) / Math.Tan(angle * Math.PI / 180.0);
-                    double num7 = num3 * num3 + num4 * num4;
-                    double num8 = 2.0 * num3 * (endPoint1.X - M.X) + 2.0 * num4 * (endPoint1.Y - M.Y);
-                    double num9 = (endPoint1.X - M.X) * (endPoint1.X - M.X) + (endPoint1.Y - M.Y) * (endPoint1.Y - M.Y) - num2 * num2;
-                    double num10 = (-num8 + Math.Sqrt(num8 * num8 - 4.0 * num7 * num9)) / (2.0 * num7);
-                    double num11 = (-num8 - Math.Sqrt(num8 * num8 - 4.0 * num7 * num9)) / (2.0 * num7);
-                    double num12 = endPoint1.X + num3 * num10;
-                    double num13 = endPoint1.Y + num4 * num10;
-                    double num14 = endPoint1.X + num3 * num11;
-                    double num15 = endPoint1.Y + num4 * num11;
-                    if (Math.Abs(Math.Sqrt((endPoint2.X - num12) * (endPoint2.X - num12) + (endPoint2.Y - num13) * (endPoint2.Y - num13))
-                        - Math.Sqrt((M.X - endPoint2.X) * (M.X - endPoint2.X) + (M.Y - endPoint2.Y) * (M.Y - endPoint2.Y)) - Math.Sqrt((M.X - num12) * (M.X - num12) + (M.Y - num13) * (M.Y - num13))) < 0.0001)
-                    {
-                        x = num12;
-                        y = num13;
-                    }
-                    else
-                    {
-                        x = num14;
-                        y = num15;
-                    }
-                }
-                else
-                {
-                    x = M.X;
-                    y = M.Y;
-                }
-                XYZ K = new XYZ(x, y, endPoint3.Z);
-                ChangeCurveAtPoint(doc, ductM, M, K);
-                
-
+                CreateConnectDuctMain(doc, angle, ductChange, ductM, M,levelId);
+                CreateConnectDuctMain(doc, angle, ductChange, ductN, N,levelId);
 
 
             }
             else
             {
+
             }
 
             return Result.Succeeded;
@@ -253,6 +204,125 @@ namespace ApiProject5.CompareElevation
                 doc.Create.NewElbowFitting(connector1, connector2);
                 t32.Commit();
             }
+        }
+
+        private Duct CreateNewDuctCus(Document doc, XYZ p1, XYZ p2, ElementId ductSystem, ElementId levelId, DuctType ductType = null)
+        {
+            Duct duct = null;
+            using (Transaction t5 = new Transaction(doc, "CreateDuctPipe2"))
+            {
+                t5.Start();
+                duct = Duct.Create(doc, ductSystem, ductType.Id, levelId, p1, p2);
+                t5.Commit();
+            }
+            return duct;
+        }
+
+        private void ChangeSizeDuct(Document doc, double diameter, double width, double height, Duct element)
+        {
+            using (Transaction t11 = new Transaction(doc, "SetSizeDuct"))
+            {
+                t11.Start();
+                if (diameter != 0)
+                {
+                    element.get_Parameter(BuiltInParameter.RBS_CURVE_DIAMETER_PARAM).Set(diameter);
+                }
+                else
+                {
+                    element.get_Parameter(BuiltInParameter.RBS_CURVE_WIDTH_PARAM).Set(width);
+                    element.get_Parameter(BuiltInParameter.RBS_CURVE_HEIGHT_PARAM).Set(height);
+                }
+                t11.Commit();
+            }
+        }
+
+        private void CreateConnectDuctMain(Document doc, double angle,Duct ductChange,Duct ductM,XYZ M,ElementId levelId)
+        {
+            double width = 0.0;
+            double height = 0.0;
+            double diameter = 0.0;
+            LocationCurve location1 = ductChange.Location as LocationCurve;
+            XYZ endPoint1 = location1.Curve.GetEndPoint(0);
+            XYZ endPoint2 = location1.Curve.GetEndPoint(1);
+
+            LocationCurve location2 = ductM.Location as LocationCurve;
+            XYZ endPoint3 = location2.Curve.GetEndPoint(0);
+            XYZ endPoint4 = location2.Curve.GetEndPoint(1);
+
+            double num3 = endPoint2.X - endPoint1.X;
+            double num4 = endPoint2.Y - endPoint1.Y;
+            double num5 = endPoint4.X - endPoint3.X;
+            double num6 = endPoint4.Y - endPoint3.Y;
+
+            XYZ G;
+            if (Math.Abs(M.X - endPoint1.X) < 0.0001 && Math.Abs(M.Y - endPoint1.Y) < 0.0001)
+            {
+                M = endPoint1;
+            }
+            else
+            {
+                M = endPoint2;
+            }
+            if (Math.Abs(M.X - endPoint3.X) < 0.0001 && Math.Abs(M.Y - endPoint3.Y) < 0.0001)
+            {
+                G = endPoint3;
+            }
+            else
+            {
+                G = endPoint4;
+            }
+
+            double x;
+            double y;
+            if (angle != 90.0)
+            {
+                double num2 = Math.Abs(endPoint1.Z - endPoint3.Z) / Math.Tan(angle * Math.PI / 180.0);
+                double num7 = num3 * num3 + num4 * num4;
+                double num8 = 2.0 * num3 * (endPoint1.X - M.X) + 2.0 * num4 * (endPoint1.Y - M.Y);
+                double num9 = (endPoint1.X - M.X) * (endPoint1.X - M.X) + (endPoint1.Y - M.Y) * (endPoint1.Y - M.Y) - num2 * num2;
+                double num10 = (-num8 + Math.Sqrt(num8 * num8 - 4.0 * num7 * num9)) / (2.0 * num7);
+                double num11 = (-num8 - Math.Sqrt(num8 * num8 - 4.0 * num7 * num9)) / (2.0 * num7);
+                double num12 = endPoint1.X + num3 * num10;
+                double num13 = endPoint1.Y + num4 * num10;
+                double num14 = endPoint1.X + num3 * num11;
+                double num15 = endPoint1.Y + num4 * num11;
+                if (Math.Abs(Math.Sqrt((endPoint2.X - num12) * (endPoint2.X - num12) + (endPoint2.Y - num13) * (endPoint2.Y - num13))
+                    - Math.Sqrt((M.X - endPoint2.X) * (M.X - endPoint2.X) + (M.Y - endPoint2.Y) * (M.Y - endPoint2.Y)) - Math.Sqrt((M.X - num12) * (M.X - num12) + (M.Y - num13) * (M.Y - num13))) < 0.0001)
+                {
+                    x = num12;
+                    y = num13;
+                }
+                else
+                {
+                    x = num14;
+                    y = num15;
+                }
+            }
+            else
+            {
+                x = M.X;
+                y = M.Y;
+            }
+            XYZ K = new XYZ(x, y, endPoint3.Z);
+            if (angle != 90)
+            {
+                ChangeCurveAtPoint(doc, ductM, G, K);
+            }
+            DuctType ductType = ductChange.DuctType;
+            ElementId ductSystem = ductChange.get_Parameter(BuiltInParameter.RBS_DUCT_SYSTEM_TYPE_PARAM).AsElementId();
+            Duct newDuctCus1 = CreateNewDuctCus(doc, M, K, ductSystem, levelId, ductType);
+            try
+            {
+                diameter = ductChange.Diameter;
+            }
+            catch
+            {
+                width = ductChange.Width;
+                height = ductChange.Height;
+            }
+            ChangeSizeDuct(doc, diameter, width, height, newDuctCus1);
+            CreateConnectEbow(doc, ductChange, M, newDuctCus1, M);
+            CreateConnectEbow(doc, ductM, K, newDuctCus1, K);
         }
     }
 }
