@@ -224,7 +224,7 @@ namespace ApiProject5.DuctPipe
                 PipeType pipeType = pipe.PipeType;
                 ElementId pipeSystem = pipe.get_Parameter(BuiltInParameter.RBS_PIPING_SYSTEM_TYPE_PARAM).AsElementId();
                 Pipe newPipeCus1 = CreateNewPipeCus(document, M, N, pipeSystem, levelId, pipeType);
-                ChangeSizePipe(document, diameter2, width, height, newPipeCus1);
+                ChangeSizePipe(document, diameter2, newPipeCus1);
                 Pipe pipe2_2 = pipe;
                 if (newPipeCus1 != null)
                     CreateConnectEbowPipe(document, newPipeCus1, M, pipe2_2, M);
@@ -239,7 +239,7 @@ namespace ApiProject5.DuctPipe
                         try
                         {
                             Pipe newPipeCus2 = this.CreateNewPipeCus(document, N, G, pipeSystem, levelId, pipeType);
-                            this.ChangeSizePipe(document, diameter2, width, height, newPipeCus2);
+                            this.ChangeSizePipe(document, diameter2, newPipeCus2);
                             if (newPipeCus2 != null && !v1.IsAlmostEqualTo(v2) && !v1.IsAlmostEqualTo(-v2))
                             {
                                 this.CreateConnectEbowPipe(document, newPipeCus2, N, newPipeCus1, N);
@@ -499,7 +499,7 @@ namespace ApiProject5.DuctPipe
             }
         }
 
-        public void ChangeSizePipe( Document doc,double diameter, double width, double height,Pipe element)
+        public void ChangeSizePipe( Document doc,double diameter,Pipe element)
         {
             using (Transaction t12 = new Transaction(doc, "SetSizeDuct"))
             {
